@@ -31,6 +31,19 @@ Route::group(['middleware' => ['auth', PasswordChanged::class], 'prefix' => '/ad
 
     });
 
+    Route::group(["prefix" => "buildings", "as" => "buildings."], function () {
+        Route::get('/', [App\Http\Controllers\BuildingController::class, 'index'])->name('index');
+        Route::post('/', [App\Http\Controllers\BuildingController::class, 'store'])->name('store');
+        Route::get('/{building}', [App\Http\Controllers\BuildingController::class, 'show'])->name('show');
+        Route::delete('/{building}', [App\Http\Controllers\BuildingController::class, 'destroy'])->name('destroy');
+
+        Route::get('/types/index', [App\Http\Controllers\BuildingTypeController::class, 'index'])->name('types.index');
+        Route::get('/types/{buildingType}/show', [App\Http\Controllers\BuildingTypeController::class, 'show'])->name('types.show');
+        Route::post('/types/store', [App\Http\Controllers\BuildingTypeController::class, 'store'])->name('types.store');
+        Route::delete('/types/{buildingType}/destroy', [App\Http\Controllers\BuildingTypeController::class, 'destroy'])->name('types.destroy');
+
+
+    });
 
     Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
 
