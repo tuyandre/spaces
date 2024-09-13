@@ -41,8 +41,18 @@ Route::group(['middleware' => ['auth', PasswordChanged::class], 'prefix' => '/ad
         Route::get('/types/{buildingType}/show', [App\Http\Controllers\BuildingTypeController::class, 'show'])->name('types.show');
         Route::post('/types/store', [App\Http\Controllers\BuildingTypeController::class, 'store'])->name('types.store');
         Route::delete('/types/{buildingType}/destroy', [App\Http\Controllers\BuildingTypeController::class, 'destroy'])->name('types.destroy');
+    });
+    // rooms
+    Route::group(["prefix" => "rooms", "as" => "rooms."], function () {
+        Route::get('/', [App\Http\Controllers\RoomController::class, 'index'])->name('index');
+        Route::post('/', [App\Http\Controllers\RoomController::class, 'store'])->name('store');
+        Route::get('/{room}', [App\Http\Controllers\RoomController::class, 'show'])->name('show');
+        Route::delete('/{room}', [App\Http\Controllers\RoomController::class, 'destroy'])->name('destroy');
 
-
+        Route::get('/types/index', [App\Http\Controllers\RoomTypeController::class, 'index'])->name('types.index');
+        Route::get('/types/{roomType}/show', [App\Http\Controllers\RoomTypeController::class, 'show'])->name('types.show');
+        Route::post('/types/store', [App\Http\Controllers\RoomTypeController::class, 'store'])->name('types.store');
+        Route::delete('/types/{roomType}/destroy', [App\Http\Controllers\RoomTypeController::class, 'destroy'])->name('types.destroy');
     });
 
     Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');

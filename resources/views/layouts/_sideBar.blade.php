@@ -62,6 +62,43 @@
                 <!--end:Menu item-->
             </div>
             <div data-kt-menu-trigger="click"
+                 class="menu-item menu-accordion {{ Str::of(request()->url())->contains('/admin/rooms')?'show':'' }}">
+                <!--begin:Menu link-->
+                <span class="menu-link">
+										<span class="menu-icon">
+                                            <i class="bi bi-building-gear fs-1"></i>
+										</span>
+										<span class="menu-title">
+                                            Manage Rooms
+                                        </span>
+										<span class="menu-arrow"></span>
+									</span>
+                <!--end:Menu link-->
+                <!--begin:Menu sub-->
+                <div class="menu-sub menu-sub-accordion">
+
+                    <!--begin:Menu item-->
+                    <!--begin:Menu link-->
+                        <a class="menu-link {{ request()->url()==route('admin.rooms.index')?'active':'' }}"
+                           href="{{ route('admin.rooms.index') }}">
+                            <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                            <span class="menu-title">Rooms</span>
+                        </a>
+                    <!--end:Menu link-->
+
+                    <!--begin:Menu link-->
+                        <a class="menu-link {{ request()->url()==route('admin.rooms.types.index')?'active':'' }}"
+                           href="{{ route('admin.rooms.types.index') }}">
+                            <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                            <span class="menu-title">Room Types</span>
+                        </a>
+                    <!--end:Menu link-->
+
+
+                </div>
+                <!--end:Menu item-->
+            </div>
+            <div data-kt-menu-trigger="click"
                  class="menu-item menu-accordion {{ Str::of(request()->url())->contains('/admin/settings')?'show':'' }}">
                 <!--begin:Menu link-->
                 <span class="menu-link">

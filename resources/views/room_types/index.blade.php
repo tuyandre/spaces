@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Buildings')
+@section('title', 'Room Types')
 @section('content')
     <div>
         <!--begin::Toolbar-->
@@ -18,7 +18,7 @@
                         <!--end::Item-->
                         <!--begin::Item-->
                         <li class="breadcrumb-item text-gray-700 fw-bold lh-1">
-                            Buildings
+                            Room Types
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
@@ -28,17 +28,17 @@
                         <!--end::Item-->
                         <!--begin::Item-->
                         <li class="breadcrumb-item text-gray-700">
-                            Manage Buildings
+                            Manage Room Types
                         </li>
                         <!--end::Item-->
                     </ul>
                     <!--end::Breadcrumb-->
                     <!--begin::Title-->
                     <h1 class="page-heading d-flex flex-column justify-content-center text-dark fw-bolder fs-1 lh-0 mb-3">
-                        Buildings
+                        Room Types
                     </h1>
                     <p class="text-muted">
-                        Here you can manage Buildings. You can add, edit or delete Buildings.
+                        Here you can manage room types. You can add, edit or delete room types.
                     </p>
                     <!--end::Title-->
                 </div>
@@ -60,11 +60,6 @@
                     <tr class="text-start text-gray-800 fw-bold fs-7 text-uppercase">
                         <th>Created At</th>
                         <th>Name</th>
-                        <th>Type</th>
-                        <th>Address</th>
-                        <th>Floors</th>
-                        <th>Rooms</th>
-                        <th>Status</th>
                         <th>Options</th>
                     </tr>
                     </thead>
@@ -77,11 +72,11 @@
 
 
     <div class="modal fade" tabindex="-1" id="myModal">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered ">
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title">
-                        Building
+                        Room Type
                     </h3>
 
                     <!--begin::Close-->
@@ -92,91 +87,14 @@
                     <!--end::Close-->
                 </div>
 
-                <form action="{{ route('admin.buildings.store') }}" id="submitForm" method="post" enctype="multipart/form-data">
+                <form action="{{ route('admin.rooms.types.store') }}" id="submitForm" method="post">
                     @csrf
                     <input type="hidden" id="id" name="id" value="0"/>
                     <div class="modal-body">
-
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" placeholder=""/>
-                                </div>
-
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label for="type" class="form-label">Type</label>
-                                    <select class="form-select" id="building_type_id" name="building_type_id">
-                                        <option value="">Select Type</option>
-                                        @foreach($buildingTypes as $type)
-                                            <option value="{{ $type->id }}">{{ $type->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label for="address" class="form-label">Address</label>
-                                    <input type="text" class="form-control" id="address" name="address" placeholder=""/>
-                                </div>
-
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label for="status" class="form-label">Status</label>
-                                    <select class="form-select" id="status" name="status">
-                                        <option value="Active">Active</option>
-                                        <option value="Inactive">Inactive</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label for="floors" class="form-label">Floors</label>
-                                    <input type="number" class="form-control" id="floors" name="floors" placeholder=""/>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label for="rooms" class="form-label">Rooms</label>
-                                    <input type="number" class="form-control" id="rooms" name="rooms" placeholder=""/>
-                                </div>
-                            </div>
-                        </div>
-
-
                         <div class="mb-3">
-                            <label for="intended_use" class="form-label">
-                                Intended Use
-                            </label>
-                            <textarea class="form-control" id="intended_use" name="intended_use"
-                                      placeholder=""></textarea>
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder=""/>
                         </div>
-
-
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control" id="description" name="description"
-                                      placeholder=""></textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="images" class="form-label">Images</label>
-                            <input type="file" class="form-control" id="images" multiple accept="image/*"
-                                   name="images[]"
-                                   placeholder=""/>
-                        </div>
-
-
                     </div>
 
                     <div class="modal-footer bg-light">
@@ -202,23 +120,12 @@
                     processing: '<div class="spinner spinner-primary spinner-lg mr-15"></div> Processing...'
                 },
                 columns: [
-                    {
-                        data: 'created_at', name: 'created_at',
+                    {data: 'created_at', name: 'created_at',
                         render: function (data) {
                             return moment(data).format('DD-MM-YYYY');
                         }
                     },
                     {data: 'name', name: 'name'},
-                    {data: 'building_type.name', name: 'buildingType.name'},
-                    {data: 'address', name: 'address'},
-                    {data: 'floors', name: 'floors'},
-                    {data: 'rooms', name: 'rooms'},
-                    {
-                        data: 'status', name: 'status',
-                        render: function (data, type, row) {
-                            return `<span class="badge bg-${row.status_color}-subtle rounded-pill text-${row.status_color}">${data}</span>`;
-                        }
-                    },
                     {data: 'action', name: 'action', orderable: false, searchable: false, className: 'text-center'},
                 ],
             });
@@ -272,12 +179,6 @@
                                 // create span element under the input field with a class of invalid-feedback and add the error text returned by the validator
                                 $1.parent().append('<span class="text-danger error">' + value[0] + '</span>');
                             });
-                        }else{
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error!',
-                                text: xhr.responseJSON?.error ?? 'Something went wrong! Please try again.'
-                            });
                         }
                     },
                     complete: function () {
@@ -290,7 +191,6 @@
             $(document).on('click', '.js-edit', function (e) {
                 e.preventDefault();
                 let url = $(this).attr('href');
-                $(this).addClass('disabled spinner spinner-primary spinner-sm');
                 $.ajax({
                     url: url,
                     type: 'GET',
@@ -298,19 +198,9 @@
                         $('#myModal').modal('show');
                         $('#id').val(data.id);
                         $('#name').val(data.name);
-                        $('#building_type_id').val(data.building_type_id);
-                        $('#address').val(data.address);
-                        $('#status').val(data.status);
-                        $('#floors').val(data.floors);
-                        $('#rooms').val(data.rooms);
-                        $('#intended_use').val(data.intended_use);
-                        $('#description').val(data.description);
                     },
                     error: function (xhr) {
                         console.log(xhr);
-                    },
-                    complete: function () {
-                        $(this).removeClass('disabled spinner spinner-primary spinner-sm');
                     }
                 });
             });

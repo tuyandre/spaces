@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Buildings')
+@section('title', 'Rooms')
 @section('content')
     <div>
         <!--begin::Toolbar-->
@@ -18,7 +18,7 @@
                         <!--end::Item-->
                         <!--begin::Item-->
                         <li class="breadcrumb-item text-gray-700 fw-bold lh-1">
-                            Buildings
+                            Rooms
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
@@ -28,17 +28,17 @@
                         <!--end::Item-->
                         <!--begin::Item-->
                         <li class="breadcrumb-item text-gray-700">
-                            Manage Buildings
+                            Manage Rooms
                         </li>
                         <!--end::Item-->
                     </ul>
                     <!--end::Breadcrumb-->
                     <!--begin::Title-->
                     <h1 class="page-heading d-flex flex-column justify-content-center text-dark fw-bolder fs-1 lh-0 mb-3">
-                        Buildings
+                        Rooms
                     </h1>
                     <p class="text-muted">
-                        Here you can manage Buildings. You can add, edit or delete Buildings.
+                        Here you can manage rooms. You can add, edit or delete rooms.
                     </p>
                     <!--end::Title-->
                 </div>
@@ -61,9 +61,10 @@
                         <th>Created At</th>
                         <th>Name</th>
                         <th>Type</th>
-                        <th>Address</th>
-                        <th>Floors</th>
-                        <th>Rooms</th>
+                        <th>Building</th>
+                        <th>Floor</th>
+                        <th>Room Number</th>
+                        <th>Capacity</th>
                         <th>Status</th>
                         <th>Options</th>
                     </tr>
@@ -81,7 +82,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title">
-                        Building
+                        Room
                     </h3>
 
                     <!--begin::Close-->
@@ -92,7 +93,8 @@
                     <!--end::Close-->
                 </div>
 
-                <form action="{{ route('admin.buildings.store') }}" id="submitForm" method="post" enctype="multipart/form-data">
+                <form action="{{ route('admin.rooms.store') }}" id="submitForm" method="post"
+                      enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" id="id" name="id" value="0"/>
                     <div class="modal-body">
@@ -107,59 +109,65 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="mb-3">
-                                    <label for="type" class="form-label">Type</label>
-                                    <select class="form-select" id="building_type_id" name="building_type_id">
+                                    <label for="room_type_id" class="form-label">Type</label>
+                                    <select class="form-select" id="room_type_id" name="room_type_id">
                                         <option value="">Select Type</option>
-                                        @foreach($buildingTypes as $type)
+                                        @foreach($roomTypes as $type)
                                             <option value="{{ $type->id }}">{{ $type->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-lg-6">
                                 <div class="mb-3">
-                                    <label for="address" class="form-label">Address</label>
-                                    <input type="text" class="form-control" id="address" name="address" placeholder=""/>
+                                    <label for="building_id" class="form-label">Building</label>
+                                    <select class="form-select" id="building_id" name="building_id">
+                                        <option value="">Select Type</option>
+                                        @foreach($buildings as $type)
+                                            <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label for="floor" class="form-label">Floor</label>
+                                    <input type="number" class="form-control" id="floor" name="floor" placeholder=""/>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label for="room_number" class="form-label">Room Number</label>
+                                    <input type="text" class="form-control" id="room_number" name="room_number"
+                                           placeholder=""/>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label for="capacity" class="form-label">Capacity</label>
+                                    <input type="number" class="form-control" id="capacity" name="capacity"
+                                           placeholder=""/>
+                                </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="mb-3">
                                     <label for="status" class="form-label">Status</label>
                                     <select class="form-select" id="status" name="status">
-                                        <option value="Active">Active</option>
-                                        <option value="Inactive">Inactive</option>
+                                        <option value="">Select Status</option>
+                                        @foreach(\App\Constants\Status::roomStatuses() as $tem)
+                                            <option value="{{ $tem }}">{{ $tem }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
-
-                        </div>
-
-                        <div class="row">
                             <div class="col-lg-6">
                                 <div class="mb-3">
-                                    <label for="floors" class="form-label">Floors</label>
-                                    <input type="number" class="form-control" id="floors" name="floors" placeholder=""/>
+                                    <label for="images" class="form-label">Images</label>
+                                    <input type="file" class="form-control" id="images" multiple accept="image/*"
+                                           name="images[]"
+                                           placeholder=""/>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label for="rooms" class="form-label">Rooms</label>
-                                    <input type="number" class="form-control" id="rooms" name="rooms" placeholder=""/>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="mb-3">
-                            <label for="intended_use" class="form-label">
-                                Intended Use
-                            </label>
-                            <textarea class="form-control" id="intended_use" name="intended_use"
-                                      placeholder=""></textarea>
                         </div>
 
 
@@ -168,15 +176,6 @@
                             <textarea class="form-control" id="description" name="description"
                                       placeholder=""></textarea>
                         </div>
-
-                        <div class="mb-3">
-                            <label for="images" class="form-label">Images</label>
-                            <input type="file" class="form-control" id="images" multiple accept="image/*"
-                                   name="images[]"
-                                   placeholder=""/>
-                        </div>
-
-
                     </div>
 
                     <div class="modal-footer bg-light">
@@ -209,10 +208,11 @@
                         }
                     },
                     {data: 'name', name: 'name'},
-                    {data: 'building_type.name', name: 'buildingType.name'},
-                    {data: 'address', name: 'address'},
-                    {data: 'floors', name: 'floors'},
-                    {data: 'rooms', name: 'rooms'},
+                    {data: 'room_type.name', name: 'roomType.name'},
+                    {data: 'building.name', name: 'building.name'},
+                    {data: 'floor', name: 'floor'},
+                    {data: 'room_number', name: 'room_number'},
+                    {data: 'capacity', name: 'capacity'},
                     {
                         data: 'status', name: 'status',
                         render: function (data, type, row) {
@@ -272,7 +272,7 @@
                                 // create span element under the input field with a class of invalid-feedback and add the error text returned by the validator
                                 $1.parent().append('<span class="text-danger error">' + value[0] + '</span>');
                             });
-                        }else{
+                        } else {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Error!',
@@ -298,13 +298,14 @@
                         $('#myModal').modal('show');
                         $('#id').val(data.id);
                         $('#name').val(data.name);
-                        $('#building_type_id').val(data.building_type_id);
-                        $('#address').val(data.address);
+                        $('#room_type_id').val(data.room_type_id);
+                        $('#building_id').val(data.building_id);
+                        $('#floor').val(data.floor);
+                        $('#room_number').val(data.room_number);
+                        $('#capacity').val(data.capacity);
                         $('#status').val(data.status);
-                        $('#floors').val(data.floors);
-                        $('#rooms').val(data.rooms);
-                        $('#intended_use').val(data.intended_use);
                         $('#description').val(data.description);
+
                     },
                     error: function (xhr) {
                         console.log(xhr);
