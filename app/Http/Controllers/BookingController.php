@@ -3,16 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\Room;
+use App\Models\RoomType;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Exceptions\Exception;
 
 class BookingController extends Controller
 {
+
+
     /**
      * Display a listing of the resource.
+     * @throws Exception
+     * @throws \Exception
      */
     public function index()
     {
-        //
+        $userId = \request('user_id', auth()->id());
+        if (\request()->ajax()) {
+            $data = Booking::query()->where('user_id', $userId)->with('room');
+            return datatables()->eloquent($data)
+                ->addColumn('action', function (Booking $booking) {
+                    return view('bookings.action', compact('booking'));
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
+        return view('bookings.index');
     }
 
     /**
@@ -20,7 +38,8 @@ class BookingController extends Controller
      */
     public function create()
     {
-        //
+        $rooms = Room::with(['roomType','building'])->get();
+        return view('bookings.create', compact('rooms'));
     }
 
     /**

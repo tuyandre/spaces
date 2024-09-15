@@ -136,4 +136,11 @@ class RoomController extends Controller
         DB::commit();
         return response()->json(['success' => 'Room deleted successfully']);
     }
+
+    public function details(Room $room)
+    {
+        $room->load('roomType', 'building');
+
+        return view('rooms._details', compact('room'));
+    }
 }

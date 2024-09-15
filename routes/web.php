@@ -13,6 +13,12 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::group(['middleware' => ['auth', PasswordChanged::class], 'prefix' => '/admin', 'as' => 'admin.'], function () {
 
+    Route::get('/bookings', [App\Http\Controllers\BookingController::class, 'index'])->name('bookings.index');
+    Route::get('/bookings/create', [App\Http\Controllers\BookingController::class, 'create'])->name('bookings.create');
+    Route::post('/bookings', [App\Http\Controllers\BookingController::class, 'store'])->name('bookings.store');
+    Route::get('/bookings/{booking}', [App\Http\Controllers\BookingController::class, 'show'])->name('bookings.show');
+    Route::delete('/bookings/{booking}', [App\Http\Controllers\BookingController::class, 'destroy'])->name('bookings.destroy');
+
     Route::group(["prefix" => "settings", "as" => "settings."], function () {
 
         Route::get('/roles', [App\Http\Controllers\RolesController::class, 'index'])->name('roles.index');
@@ -47,6 +53,7 @@ Route::group(['middleware' => ['auth', PasswordChanged::class], 'prefix' => '/ad
         Route::get('/', [App\Http\Controllers\RoomController::class, 'index'])->name('index');
         Route::post('/', [App\Http\Controllers\RoomController::class, 'store'])->name('store');
         Route::get('/{room}', [App\Http\Controllers\RoomController::class, 'show'])->name('show');
+        Route::get('/{room}/details', [App\Http\Controllers\RoomController::class, 'details'])->name('details');
         Route::delete('/{room}', [App\Http\Controllers\RoomController::class, 'destroy'])->name('destroy');
 
         Route::get('/types/index', [App\Http\Controllers\RoomTypeController::class, 'index'])->name('types.index');

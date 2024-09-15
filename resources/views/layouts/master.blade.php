@@ -8,8 +8,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title') {{ config('app.name', 'Laravel') }}</title>
+
     <x-fav-icon/>
     @livewireStyles
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700"/>        <!--end::Fonts-->
     @vite(['resources/sass/master.scss', 'resources/js/master.js','resources/css/app.css'])
     @yield('styles')
 </head>
@@ -54,7 +56,7 @@
             <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
                 @include('client.partials._flash')
                 <!--begin::Content wrapper-->
-                <div id="kt_app_content" class="card card-body py-10 tw-rounded-md flex-column-fluid ">
+                <div id="kt_app_content" class="card card-body py-10 flex-column-fluid ">
                     <!--begin::Content container-->
                     <div id="kt_app_content_container" class="container-fluid app-container">
                         @yield('content')
