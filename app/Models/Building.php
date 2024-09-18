@@ -11,7 +11,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $name
@@ -48,7 +48,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  */
 class Building extends Model implements HasMedia
 {
-    use HasEncodedId,HasStatusColor,InteractsWithMedia;
+    use HasEncodedId,HasStatusColor,InteractsWithMedia,HasFactory;
 
     protected $appends = ['status_color'];
 

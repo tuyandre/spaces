@@ -53,7 +53,7 @@
         <!--end::Toolbar-->
         <!--begin::Content-->
         <div class="my-3">
-            <form action="{{ route('admin.bookings.store') }}" method="post">
+            <form action="{{ route('admin.bookings.store') }}" method="post" id="submitBookingForm">
                 @csrf
                 <div class="row">
                     <div class="col-lg-6">
@@ -118,10 +118,10 @@
                     let $roomDetails = $('#room_details');
                     // add a loader inside the room details
                     $roomDetails.html(`<div class="d-flex justify-content-center">
-  <div class="spinner-border" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-</div>`);
+                                          <div class="spinner-border" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                          </div>
+                                        </div>`);
                     // fetch the room details
                     $.get(url, function (response) {
                         $roomDetails.html(response);
@@ -129,6 +129,46 @@
 
                 }
             });
+
+            $('#submitBookingForm').on('submit', function (e) {
+                e.preventDefault();
+                let form = $(this);
+                let url = form.attr('action');
+                let data = form.serialize();
+
+                // remove all errors
+                $('.is-invalid').removeClass('is-invalid');
+                $('.invalid-feedback').remove();
+                let $btn = form.find('[type="submit"]');
+                $btn.prop('disabled', true)
+                    .html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...`);
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: data,
+                    success: function (response) {
+                        toastr.success(response.message);
+                        window.location.href = response.redirect;
+                    },
+                    error: function (xhr, status, error) {
+
+                        $btn.prop('disabled', false)
+                            .html(`Create Booking`);
+
+                        // check status code if it's a validation error 422
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+                            $.each(errors, function (key, value) {
+                                $(`#${key}`).addClass('is-invalid error')
+                                    .after(`<div class="invalid-feedback small">${value}</div>`);
+                            });
+                        } else {
+                            toastr.error('An error occurred, please try again later.');
+                        }
+                    }
+                });
+            });
+
         });
     </script>
 

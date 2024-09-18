@@ -5,7 +5,6 @@ namespace App\Constants;
 class Status
 {
     const Draft = 'Draft';
-    const Pending = 'Pending';
     const Submitted = 'Submitted';
     const Rejected = 'Rejected';
     const Approved = 'Approved';
@@ -15,11 +14,28 @@ class Status
     const Booked = 'Booked';
     const UnderMaintenance = 'Under Maintenance';
 
+    const Confirmed = 'Confirmed';
+    const Completed = 'Completed';
+    const OutOfService = 'Out of Service';
+    const UnderConstruction = 'Under Construction';
+    const Active = 'Active';
+    const Inactive = 'Inactive';
+
+
     public static function roomStatuses(): array
     {
         return [
             self::Available,
-            self::Booked,
+            self::UnderMaintenance,
+            self::OutOfService,
+        ];
+    }
+
+    public static function buildingStatuses(): array
+    {
+        return [
+            self::Active,
+            self::Inactive,
             self::UnderMaintenance,
         ];
     }

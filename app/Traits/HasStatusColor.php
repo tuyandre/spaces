@@ -14,14 +14,17 @@ trait HasStatusColor
             strtolower(Status::UnderMaintenance),
             strtolower(Status::Draft) => 'warning',
 
-            strtolower(Status::Submitted) => 'info',
+            strtolower(Status::Submitted),
+            strtolower(Status::Confirmed) => 'info',
 
             strtolower(Status::Available),
             'active',
+            strtolower(Status::Completed),
             strtolower(Status::Approved) => 'success',
 
             strtolower(Status::Rejected),
             strtolower(Status::Cancelled),
+            strtolower(Status::OutOfService),
             'inactive',
             strtolower(Status::Booked) => 'danger',
 

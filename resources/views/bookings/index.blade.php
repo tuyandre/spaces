@@ -44,7 +44,7 @@
                 </div>
                 <!--end::Page title-->
                 <!--begin::Actions-->
-                <a href="{{ route('admin.bookings.create') }}"  class="btn btn-sm btn-primary px-4 py-3">
+                <a href="{{ route('admin.bookings.create') }}" class="btn btn-sm btn-primary px-4 py-3">
                     <i class="bi bi-plus fs-3"></i>
                     New Booking
                 </a>
@@ -58,12 +58,11 @@
                 <table class="table ps-2 align-middle border rounded table-row-dashed fs-6 g-5" id="myTable">
                     <thead>
                     <tr class="text-start text-gray-800 fw-bold fs-7 text-uppercase">
-                        <th>Created At</th>
-                        <th>Name</th>
+                        <th>Room</th>
+                        <th>Building</th>
                         <th>Type</th>
-                        <th>Address</th>
-                        <th>Floors</th>
-                        <th>Rooms</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
                         <th>Status</th>
                         <th>Options</th>
                     </tr>
@@ -74,3 +73,76 @@
         <!--end::Content-->
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function () {
+            let dt = $('#myTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{!! request()->fullUrl() !!}',
+                columns: [
+                    {data: 'room.name', name: 'room.name'},
+                    {data: 'room.building.name', name: 'room.building.name'},
+                    {data: 'room.room_type.name', name: 'room.roomType.name'},
+                    {data: 'start_date', name: 'start_date',
+                        render: function (data, type, row) {
+                            return (new Date(data)).toISOString().slice(0, 10);
+                        }
+                    },
+                    {data: 'end_date', name: 'end_date',
+                        render: function (data, type, row) {
+                            return (new Date(data)).toISOString().slice(0, 10);
+                        }
+                    },
+                    {
+                        data: 'status', name: 'status',
+                        render: function (data, type, row) {
+                            return `<span class="badge text-${row.status_color} bg-${row.status_color}-subtle rounded-pill">${data}</span>`;
+                        }
+                    },
+                    {data: 'action', name: 'action', orderable: false, searchable: false},
+                ]
+            });
+
+            $(document).on('click', '.js-cancel', function (e) {
+                e.preventDefault();
+                let url = $(this).attr('href');
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You want to cancel this booking!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, Cancel it!',
+                    cancelButtonText: 'No, keep it'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            type: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function (response) {
+                                Swal.fire(
+                                    'Cancelled!',
+                                    'Booking has been cancelled.',
+                                    'success'
+                                );
+                                dt.ajax.reload();
+                            },
+                            error: function (xhr, status, error) {
+                                Swal.fire(
+                                    'Error!',
+                                    'An error occurred. Please try again.',
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                });
+            });
+
+        });
+    </script>
+@endpush

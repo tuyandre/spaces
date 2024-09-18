@@ -17,7 +17,9 @@ Route::group(['middleware' => ['auth', PasswordChanged::class], 'prefix' => '/ad
     Route::get('/bookings/create', [App\Http\Controllers\BookingController::class, 'create'])->name('bookings.create');
     Route::post('/bookings', [App\Http\Controllers\BookingController::class, 'store'])->name('bookings.store');
     Route::get('/bookings/{booking}', [App\Http\Controllers\BookingController::class, 'show'])->name('bookings.show');
-    Route::delete('/bookings/{booking}', [App\Http\Controllers\BookingController::class, 'destroy'])->name('bookings.destroy');
+    Route::post('/bookings/{booking}/cancel', [App\Http\Controllers\BookingController::class, 'cancelBooking'])->name('bookings.cancel');
+    Route::post('/bookings/{booking}/checkout', [App\Http\Controllers\BookingController::class, 'checkout'])->name('bookings.checkout');
+    Route::delete('/bookings/{booking}/destroy', [App\Http\Controllers\BookingController::class, 'destroy'])->name('bookings.destroy');
 
     Route::group(["prefix" => "settings", "as" => "settings."], function () {
 

@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use App\Traits\HasEncodedId;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $name
@@ -27,5 +28,5 @@ use Illuminate\Database\Eloquent\Model;
  */
 class BuildingType extends Model
 {
-    use HasEncodedId;
+    use HasEncodedId,HasFactory;
 }
