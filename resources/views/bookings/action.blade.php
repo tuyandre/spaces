@@ -13,7 +13,7 @@
                 </li>
             @endif
 
-            @if(now()->greaterThanOrEqualTo($booking->end_date) &&  strtolower($booking->status) !=\App\Constants\Status::Completed)
+            @if(now()->greaterThanOrEqualTo($booking->end_date) &&  strtolower($booking->status) ==\App\Constants\Status::Confirmed)
                 <li>
                     <a class="dropdown-item js-checkout"
                        href="{{ route('admin.bookings.checkout', encodeId($booking->id)) }}">Checkout</a>

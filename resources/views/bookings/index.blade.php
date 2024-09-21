@@ -77,7 +77,7 @@
 @push('scripts')
     <script>
         $(document).ready(function () {
-            let dt = $('#myTable').DataTable({
+            window.dt = $('#myTable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: '{!! request()->fullUrl() !!}',

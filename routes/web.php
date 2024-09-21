@@ -62,6 +62,12 @@ Route::group(['middleware' => ['auth', PasswordChanged::class], 'prefix' => '/ad
         Route::get('/types/{roomType}/show', [App\Http\Controllers\RoomTypeController::class, 'show'])->name('types.show');
         Route::post('/types/store', [App\Http\Controllers\RoomTypeController::class, 'store'])->name('types.store');
         Route::delete('/types/{roomType}/destroy', [App\Http\Controllers\RoomTypeController::class, 'destroy'])->name('types.destroy');
+
+        Route::get('/{room}/maintenances', [App\Http\Controllers\RoomMaintenanceController::class, 'index'])->name('maintenances.index');
+        Route::post('/{room}/maintenances', [App\Http\Controllers\RoomMaintenanceController::class, 'store'])->name('maintenances.store');
+        Route::post('/maintenances/{maintenance}/complete', [App\Http\Controllers\RoomMaintenanceController::class, 'complete'])->name('maintenances.complete');
+        Route::delete('/maintenances/{maintenance}', [App\Http\Controllers\RoomMaintenanceController::class, 'destroy'])->name('maintenances.destroy');
+
     });
 
     Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');

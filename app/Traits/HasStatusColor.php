@@ -6,7 +6,7 @@ use App\Constants\Status;
 
 trait HasStatusColor
 {
-    public function getStatusColorAttribute(): string
+    public function getStatusColorFromTrait(): string
     {
         $status = strtolower($this->status);
 
@@ -32,5 +32,9 @@ trait HasStatusColor
         };
     }
 
-
+    // Keep the original method (optional)
+    public function getStatusColorAttribute(): string
+    {
+        return $this->getStatusColorFromTrait();
+    }
 }

@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             RoomTypeSeeder::class,
             OccupancySeeder::class,
             BuildingTypeSeeder::class,
+            MaintenanceTypeSeeder::class
         ]);
     }
 }

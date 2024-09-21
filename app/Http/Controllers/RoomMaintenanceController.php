@@ -2,64 +2,55 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\Status;
+use App\Models\MaintenanceType;
+use App\Models\Room;
 use App\Models\RoomMaintenance;
 use Illuminate\Http\Request;
 
 class RoomMaintenanceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    // Create a maintenance record for a room
+    public function store(Request $request, Room $room)
     {
-        //
+        $data = $request->validate([
+            'maintenance_type_id' => 'required|string',
+            'description' => 'required|string',
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'status' => 'required',
+        ]);
+        $room->maintenances()->create($data);
+        return response()->json(['success' => 'Room maintenance scheduled successfully']);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    // Mark a maintenance as completed
+    public function complete(RoomMaintenance $maintenance)
     {
-        //
+        $maintenance->status = Status::Completed;
+        $maintenance->save();
+        return response()->json(['success' => 'Room maintenance marked as completed']);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    // Get all maintenances for a room
+    public function index(Room $room)
     {
-        //
-    }
+        $sortColumn = request('sort_col', 'created_at');
+        $sortDirection = request('sort_dir', 'desc');
+        $q = \request('q');
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(RoomMaintenance $roomMaintenance)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(RoomMaintenance $roomMaintenance)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, RoomMaintenance $roomMaintenance)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(RoomMaintenance $roomMaintenance)
-    {
-        //
+        $maintenances = $room->maintenances()
+            ->with('maintenanceType')
+            ->when($q, function ($query) use ($q) {
+                $query->where('maintenance_type', 'like', "%$q%")
+                    ->orWhere('description', 'like', "%$q%")
+                    ->orWhere('status', 'like', "%$q%")
+                    ->orWhere('start_date', 'like', "%$q%")
+                    ->orWhere('end_date', 'like', "%$q%");
+            })
+            ->orderBy($sortColumn, $sortDirection)
+            ->paginate(10);
+        $maintenanceTypes = MaintenanceType::query()->get();
+        return view('rooms.maintenances', compact('room', 'maintenances', 'maintenanceTypes'));
     }
 }

@@ -53,7 +53,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  */
 class Room extends Model implements HasMedia
 {
-    use InteractsWithMedia, HasStatusColor,HasEncodedId,HasFactory;
+    use InteractsWithMedia, HasStatusColor, HasEncodedId, HasFactory;
 
     protected $appends = ['status_color'];
 
@@ -78,6 +78,35 @@ class Room extends Model implements HasMedia
     public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);
+    }
+
+    // A room can have many maintenance records
+    public function maintenances(): HasMany
+    {
+        return $this->hasMany(RoomMaintenance::class);
+    }
+
+    // Check if the room is under maintenance
+    public function isUnderMaintenance(): bool
+    {
+        return $this->maintenances()
+            ->where('status', 'pending')
+            ->exists(); // A room is under maintenance if any 'pending' maintenance exists
+    }
+
+
+    // Room.php
+
+    // Override the status color attribute to handle maintenance
+    public function getStatusColorAttribute(): string
+    {
+        // If the room is under maintenance, return 'warning'
+        if ($this->isUnderMaintenance()) {
+            return 'warning';
+        }
+
+        // Otherwise, use the status color from the trait
+        return $this->getStatusColorFromTrait();
     }
 
 

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 /**
  *
@@ -39,7 +40,7 @@ use Illuminate\Support\Carbon;
  */
 class Booking extends Model
 {
-    use HasStatusColor, HasEncodedId,HasFactory;
+    use HasStatusColor, HasEncodedId, HasFactory;
 
     protected $appends = ['status_color'];
 
@@ -58,4 +59,26 @@ class Booking extends Model
     {
         return ucfirst($value);
     }
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::created(function ($booking) {
+            // Generate booking code after the booking has been created
+            $booking->booking_code = Booking::generateBookingCode($booking);
+            $booking->save();
+        });
+    }
+
+    public static function generateBookingCode($booking): string
+    {
+        // Combine the booking ID and room ID to form part of the booking code
+        $code = $booking->id . $booking->room_id;
+
+        // Pad the code to a length of 10 and prefix with "BKG"
+        // Ensure the code is unique
+        return 'BKG' . str_pad($code, 5, '0', STR_PAD_LEFT);
+    }
+
 }
