@@ -14,12 +14,31 @@ class RoomMaintenanceController extends Controller
     public function store(Request $request, Room $room)
     {
         $data = $request->validate([
-            'maintenance_type_id' => 'required|string',
+            'maintenance_type_id' => ['required'],
             'description' => 'required|string',
             'start_date' => 'required|date',
-            'end_date' => 'nullable|date|after_or_equal:start_date',
-            'status' => 'required',
+            'end_date' => 'required|date|after_or_equal:start_date'
         ]);
+
+        // Check for overlapping maintenance
+        $overlap = RoomMaintenance::where('room_id', '=', $room->id)
+            ->where(function ($query) use ($data) {
+                $query->whereBetween('start_date', [$data['start_date'], $data['end_date']])
+                    ->orWhereBetween('end_date', [$data['start_date'], $data['end_date']])
+                    ->orWhere(function ($query) use ($data) {
+                        $query->where('start_date', '<=', $data['start_date'])
+                            ->where('end_date', '>=', $data['end_date']);
+                    });
+            })
+            ->exists();
+
+        if ($overlap) {
+            $message = 'Another maintenance is already scheduled for this room in the selected date range.';
+            // return back with error message as laravel validation error
+            return response()->json(['error' => $message], 422);
+        }
+
+
         $room->maintenances()->create($data);
         return response()->json(['success' => 'Room maintenance scheduled successfully']);
     }
@@ -52,5 +71,14 @@ class RoomMaintenanceController extends Controller
             ->paginate(10);
         $maintenanceTypes = MaintenanceType::query()->get();
         return view('rooms.maintenances', compact('room', 'maintenances', 'maintenanceTypes'));
+    }
+
+    public function destroy(RoomMaintenance $maintenance)
+    {
+        $maintenance->delete();
+       if (\request()->ajax()){
+           return response()->json(['success' => 'Room maintenance deleted successfully']);
+       }
+        return back()->with('success', 'Room maintenance deleted successfully');
     }
 }

@@ -45,7 +45,51 @@
         <!--end::Toolbar-->
         <!--begin::Content-->
         <div class="my-3">
-
+            <livewire:dashboard.room-statistics/>
+            <div class="row">
+                <!-- Recent Booking -->
+                <div class="col-lg-12 mb-4">
+                    <div class="card border tw-border-zinc-300">
+                        <div class="card-body">
+                            <h3>
+                                Recent Booking
+                            </h3>
+                            <p>
+                                Below are the recent bookings made by the users.
+                            </p>
+                            <livewire:dashboard.recent-booking/>
+                        </div>
+                    </div>
+                </div>
+                <!-- Room Statistics -->
+            </div>
+            <div class="row">
+                <!-- Room Status Overview -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card border tw-border-zinc-300">
+                        <div class="card-body">
+                            <h4>
+                                Room Status Overview
+                            </h4>
+                            <p>
+                                Below are the recent room status overview.
+                            </p>
+                            <livewire:dashboard.room-status-overview/>
+                        </div>
+                    </div>
+                </div>
+                <!-- Upcoming Maintenance -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card border tw-border-zinc-300 h-100">
+                        <div class="card-body">
+                            <h4>
+                                Upcoming Maintenance
+                            </h4>
+                            <livewire:dashboard.upcoming-maintenance/>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!--end::Content-->
     </div>

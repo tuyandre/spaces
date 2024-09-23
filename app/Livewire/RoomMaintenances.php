@@ -2,6 +2,9 @@
 
 namespace App\Livewire;
 
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Foundation\Application;
+use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -15,13 +18,18 @@ class RoomMaintenances extends Component
     public $search = '';
     public $perPage = 10;
 
+    // bootstrap pagination
+
+    protected $paginationTheme = 'bootstrap';
+
+    protected $queryString = ['search' => ['except' => ''], 'sortColumn', 'sortDirection'];
+
     protected $listeners = ['refreshRoomMaintenances' => '$refresh'];
 
     public function mount($room): void
     {
         $this->room = $room;
     }
-
 
 
     // Method to update sorting
@@ -41,8 +49,9 @@ class RoomMaintenances extends Component
         $this->resetPage();
     }
 
-    public function render(): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\View\View
+    public function render(): Application|Factory|\Illuminate\Contracts\View\View|View
     {
+        info('rendering room maintenances:'.'search:'.$this->search.'sortColumn:'.$this->sortColumn.'sortDirection:'.$this->sortDirection);
         // Retrieve maintenances with search and sort functionality
         $maintenances = $this->room->maintenances()
             ->with('maintenanceType')
@@ -53,7 +62,8 @@ class RoomMaintenances extends Component
                     });
             })
             ->orderBy($this->sortColumn, $this->sortDirection)
-            ->paginate($this->perPage);
+            ->paginate($this->perPage)
+            ->appends(['search' => $this->search, 'sortColumn' => $this->sortColumn, 'sortDirection' => $this->sortDirection]);
 
         return view('livewire.room-maintenances', [
             'maintenances' => $maintenances,

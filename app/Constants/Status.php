@@ -20,6 +20,9 @@ class Status
     const UnderConstruction = 'Under Construction';
     const Active = 'Active';
     const Inactive = 'Inactive';
+    const InProgress = "In Progress";
+    const Scheduled = "Scheduled";
+    const Unknown = "Unknown";
 
 
     public static function roomStatuses(): array

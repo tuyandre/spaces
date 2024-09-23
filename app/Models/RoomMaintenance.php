@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use App\Constants\Status;
+use App\Traits\HasEncodedId;
+use App\Traits\HasStatusColor;
+use App\Traits\HasStatusIcon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,28 +33,46 @@ use Illuminate\Database\Eloquent\Model;
  */
 class RoomMaintenance extends Model
 {
+    use HasStatusColor, HasEncodedId, HasStatusIcon;
+
+    protected $appends = ['status_color', 'status_icon'];
+
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
+    ];
+
     public function room(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Room::class);
     }
 
-    protected static function booted(): void
-    {
-        // When a maintenance is created, set the room status to "Under Maintenance"
-        static::created(function ($maintenance) {
-            $maintenance->room->update(['status' => Status::UnderMaintenance]);
-        });
-
-        // When maintenance is updated to 'completed', restore the room's original status
-        static::updated(function ($maintenance) {
-            if ($maintenance->status === Status::Completed) {
-                $maintenance->room->update(['status' => Status::Available]); // Or another appropriate status
-            }
-        });
-    }
 
     public function maintenanceType(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(MaintenanceType::class);
     }
+
+    // let's reconstruct statuses according to dates
+    public function getStatusAttribute(): string
+    {
+        $now = now();
+        $start = $this->start_date;
+        $end = $this->end_date;
+
+        if ($now->isBefore($start)) {
+            return Status::Scheduled;
+        }
+
+        if ($now->isAfter($start) && $now->isBefore($end)) {
+            return Status::InProgress;
+        }
+
+        if ($now->isAfter($end)) {
+            return Status::Completed;
+        }
+
+        return Status::Unknown;
+    }
+
 }

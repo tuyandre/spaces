@@ -81,4 +81,9 @@ class Booking extends Model
         return 'BKG' . str_pad($code, 5, '0', STR_PAD_LEFT);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }

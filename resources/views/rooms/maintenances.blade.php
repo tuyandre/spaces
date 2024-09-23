@@ -53,6 +53,13 @@
                 <!--end::Page title-->
                 <!--begin::Actions-->
 
+                <div class="d-flex align-items-center flex-wrap gap-4">
+                    <button type="button" class="btn btn-sm btn-primary px-4 py-3" id="addNew">
+                        <i class="bi bi-plus fs-3"></i>
+                        New Maintenance
+                    </button>
+                </div>
+
                 <!--end::Actions-->
             </div>
         </div>
@@ -70,7 +77,12 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="newMaintenanceModalLabel">New Maintenance</h5>
+                       <div>
+                           <h5 class="modal-title" id="newMaintenanceModalLabel">Maintenance</h5>
+                           <p class="mb-0 text-muted">
+                                 Add new maintenance for room {{ $room->name }}
+                           </p>
+                       </div>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form action="{{ route('admin.rooms.maintenances.store',encodeId($room->id)) }}" id="submitForm">
@@ -95,15 +107,6 @@
                                 </select>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="status" class="form-label">Status</label>
-                                <select class="form-select" id="status" name="status">
-                                    <option value="">Select Status</option>
-                                    <option value="Pending">Pending</option>
-                                    <option value="Completed">Completed</option>
-                                    <option value="In Progress">In Progress</option>
-                                </select>
-                            </div>
 
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
@@ -140,6 +143,11 @@
                 let $btn = $('#submitForm button[type="submit"]');
                 $btn.prop('disabled', true);
                 $btn.html('Saving...');
+
+                // remove existing errors
+                $('.is-invalid').removeClass('is-invalid')
+                $('.invalid-feedback').remove();
+
                 $.ajax({
                     url: url,
                     type: 'POST',
@@ -157,18 +165,17 @@
                         $btn.prop('disabled', false);
                         $btn.html('Save Changes');
                         const errors = response.responseJSON.errors;
+                        const error = response.responseJSON.error;
                         if (errors) {
                             Object.keys(errors).forEach(function (key) {
-                                const input = form.find('input[name=' + key + ']');
-                                const select = form.find('select[name=' + key + ']');
-                                if (input.length) {
-                                    input.addClass('is-invalid');
-                                    input.siblings('.invalid-feedback').html(errors[key][0]);
-                                }
-                                if (select.length) {
-                                    select.addClass('is-invalid');
-                                    select.siblings('.invalid-feedback').html(errors[key][0]);
-                                }
+                                const error = errors[key];
+                                $(`#${key}`).addClass('is-invalid').after(`<div class="invalid-feedback">${error}</div>`);
+                            });
+                        } else if (error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: error
                             });
                         }
                     }
