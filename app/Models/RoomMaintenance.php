@@ -53,7 +53,7 @@ class RoomMaintenance extends Model
         return $this->belongsTo(MaintenanceType::class);
     }
 
-    // let's reconstruct statuses according to dates
+    // let's reconstruct statuses according to dates of Room maintenance
     public function getStatusAttribute(): string
     {
         $now = now();

@@ -45,7 +45,6 @@ class UsersController extends Controller
                                 </a>
                                 <ul class='dropdown-menu dropdown-menu-right'>
                                     <li>$editBtn</li>
-//                                    <li>$rolesBtn</li>
                                     <li>$deleteBtn</li>
                                 </ul>
                             </div>";
@@ -56,10 +55,10 @@ class UsersController extends Controller
                 ->make(true);
         }
         $roles = $this->roleService->getAllRoles();
-        $divisions = Department::all();
+        $departments = Department::all();
         return view('admin.users.list', [
             'roles' => $roles,
-            'divisions' => $divisions,
+            'departments' => $departments,
         ]);
     }
 
@@ -76,8 +75,6 @@ class UsersController extends Controller
             'roles' => ['required', 'array'],
             'roles.*' => ['required', 'integer', 'exists:roles,id'],
             'phone' => ['required', 'string', 'max:255'],
-            'job_title' => ['required', 'string', 'max:255'],
-            'division_id' => ['required', 'integer', 'exists:divisions,id'],
         ]);
 
         $id = $request->input('id');
@@ -86,10 +83,8 @@ class UsersController extends Controller
         $user = User::updateOrCreate(['id' => $id], [
             'name' => $request->input('name'),
             'email' => $request->input('email'),
-            'phone' => $request->input('phone'),
-            'job_title' => $request->input('job_title'),
-            'password' => Hash::make($random),
-            'division_id' => $request->input('division_id'),
+            'phone_number' => $request->input('phone'),
+            'password' => Hash::make($random)
         ]);
 
         $user->roles()->sync($request->input('roles'));

@@ -4,7 +4,7 @@
     <div class="text-dark order-2 order-md-1">
         <span class="text-muted fw-semibold me-1">{{ date('Y') }}&copy;</span>
         <a href="" target="_blank" class="text-gray-800 text-hover-primary">
-            IRIMIS - All Rights Reserved
+            SMS - All Rights Reserved
         </a>
     </div>
     <!--end::Copyright-->

@@ -29,7 +29,6 @@ class Status
     {
         return [
             self::Available,
-            self::UnderMaintenance,
             self::OutOfService,
         ];
     }

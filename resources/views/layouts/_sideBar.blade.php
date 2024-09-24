@@ -24,19 +24,30 @@
                 <!--end:Menu link-->
             </div>
             <!--end:Menu item-->
-            <!--begin:Menu item-->
-            <div class="menu-item here">
-                <!--begin:Menu link-->
-                <a href="{{ route('admin.bookings.index',['type'=>'all']) }}"
-                   class="menu-link {{ request()->fullUrl() ==route('admin.bookings.index',['type'=>'all'])?'active':'' }}">
-                    <div class="menu-icon">
-                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-folders"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 4h3l2 2h5a2 2 0 0 1 2 2v7a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2" /><path d="M17 17v2a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2h2" /></svg>
-                    </div>
-                    <span class="menu-title">All Bookings</span>
-                </a>
-                <!--end:Menu link-->
-            </div>
-            <!--end:Menu item-->
+            @can(\App\Constants\Permission::MANAGE_BOOKINGS)
+                <!--begin:Menu item-->
+                <div class="menu-item here">
+                    <!--begin:Menu link-->
+                    <a href="{{ route('admin.bookings.index',['type'=>'all']) }}"
+                       class="menu-link {{ request()->fullUrl() ==route('admin.bookings.index',['type'=>'all'])?'active':'' }}">
+                        <div class="menu-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 class="icon icon-tabler icons-tabler-outline icon-tabler-folders">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path
+                                    d="M9 4h3l2 2h5a2 2 0 0 1 2 2v7a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2"/>
+                                <path d="M17 17v2a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2h2"/>
+                            </svg>
+                        </div>
+                        <span class="menu-title">All Bookings</span>
+                    </a>
+                    <!--end:Menu link-->
+                </div>
+                <!--end:Menu item-->
+            @endcan
+
             <!--begin:Menu item-->
             <div class="menu-item here">
                 <!--begin:Menu link-->
@@ -56,54 +67,58 @@
                 <!--end:Menu link-->
             </div>
             <!--end:Menu item-->
-            <div data-kt-menu-trigger="click"
-                 class="menu-item menu-accordion {{ Str::of(request()->url())->contains('/admin/buildings')?'show':'' }}">
-                <!--begin:Menu link-->
-                <span class="menu-link">
-										<span class="menu-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                 stroke-linecap="round" stroke-linejoin="round"
-                                                 class="icon icon-tabler icons-tabler-outline icon-tabler-building-skyscraper"><path
-                                                    stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21l18 0"/><path
-                                                    d="M5 21v-14l8 -4v18"/><path d="M19 21v-10l-6 -4"/><path
-                                                    d="M9 9l0 .01"/><path d="M9 12l0 .01"/><path d="M9 15l0 .01"/><path
-                                                    d="M9 18l0 .01"/></svg>
-										</span>
-										<span class="menu-title">
-                                            Manage Buildings
-                                        </span>
-										<span class="menu-arrow"></span>
-									</span>
-                <!--end:Menu link-->
-                <!--begin:Menu sub-->
-                <div class="menu-sub menu-sub-accordion">
+            @canany([\App\Constants\Permission::MANAGE_BUILDINGS,\App\Constants\Permission::MANAGE_BUILDING_TYPES])
+                <div data-kt-menu-trigger="click"
+                     class="menu-item menu-accordion {{ Str::of(request()->url())->contains('/admin/buildings')?'show':'' }}">
+                    @can(\App\Constants\Permission::MANAGE_BUILDINGS)
+                        <!--begin:Menu link-->
+                        <span class="menu-link">
+                        <span class="menu-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                 stroke-linecap="round" stroke-linejoin="round"
+                                 class="icon icon-tabler icons-tabler-outline icon-tabler-building-skyscraper"><path
+                                    stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21l18 0"/><path
+                                    d="M5 21v-14l8 -4v18"/><path d="M19 21v-10l-6 -4"/><path
+                                    d="M9 9l0 .01"/><path d="M9 12l0 .01"/><path d="M9 15l0 .01"/><path
+                                    d="M9 18l0 .01"/></svg>
+                        </span>
+                        <span class="menu-title">
+                            Manage Buildings
+                        </span>
+                        <span class="menu-arrow"></span>
+                    </span>
+                        <!--end:Menu link-->
+                    @endcan
+                    @can(\App\Constants\Permission::MANAGE_BUILDING_TYPES)
+                        <!--begin:Menu sub-->
+                        <div class="menu-sub menu-sub-accordion">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{ request()->url()==route('admin.buildings.index')?'active':'' }}"
+                               href="{{ route('admin.buildings.index') }}">
+                                <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                <span class="menu-title">Buildings</span>
+                            </a>
+                            <!--end:Menu link-->
 
-                    <!--begin:Menu item-->
-                    <!--begin:Menu link-->
-                    <a class="menu-link {{ request()->url()==route('admin.buildings.index')?'active':'' }}"
-                       href="{{ route('admin.buildings.index') }}">
-                        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-                        <span class="menu-title">Buildings</span>
-                    </a>
-                    <!--end:Menu link-->
-
-                    <!--begin:Menu link-->
-                    <a class="menu-link {{ request()->url()==route('admin.buildings.types.index')?'active':'' }}"
-                       href="{{ route('admin.buildings.types.index') }}">
-                        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-                        <span class="menu-title">Building Types</span>
-                    </a>
-                    <!--end:Menu link-->
-
-
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{ request()->url()==route('admin.buildings.types.index')?'active':'' }}"
+                               href="{{ route('admin.buildings.types.index') }}">
+                                <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                <span class="menu-title">Building Types</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    @endcan
                 </div>
-                <!--end:Menu item-->
-            </div>
-            <div data-kt-menu-trigger="click"
-                 class="menu-item menu-accordion {{ Str::of(request()->url())->contains('/admin/rooms')?'show':'' }}">
-                <!--begin:Menu link-->
-                <span class="menu-link">
+            @endcanany
+
+            @canany([\App\Constants\Permission::MANAGE_ROOM_TYPES,\App\Constants\Permission::MANAGE_ROOM_TYPES])
+                <div data-kt-menu-trigger="click"
+                     class="menu-item menu-accordion {{ Str::of(request()->url())->contains('/admin/rooms')?'show':'' }}">
+                    <!--begin:Menu link-->
+                    <span class="menu-link">
 										<span class="menu-icon">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -119,82 +134,86 @@
                                         </span>
 										<span class="menu-arrow"></span>
 									</span>
-                <!--end:Menu link-->
-                <!--begin:Menu sub-->
-                <div class="menu-sub menu-sub-accordion">
-
-                    <!--begin:Menu item-->
-                    <!--begin:Menu link-->
-                    <a class="menu-link {{ request()->url()==route('admin.rooms.index')?'active':'' }}"
-                       href="{{ route('admin.rooms.index') }}">
-                        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-                        <span class="menu-title">Rooms</span>
-                    </a>
                     <!--end:Menu link-->
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        @can(\App\Constants\Permission::MANAGE_ROOMS)
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{ request()->url()==route('admin.rooms.index')?'active':'' }}"
+                               href="{{ route('admin.rooms.index') }}">
+                                <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                <span class="menu-title">Rooms</span>
+                            </a>
+                            <!--end:Menu link-->
+                        @endcan
 
-                    <!--begin:Menu link-->
-                    <a class="menu-link {{ request()->url()==route('admin.rooms.types.index')?'active':'' }}"
-                       href="{{ route('admin.rooms.types.index') }}">
-                        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-                        <span class="menu-title">Room Types</span>
-                    </a>
-                    <!--end:Menu link-->
-
-
+                        @can(\App\Constants\Permission::MANAGE_ROOM_TYPES)
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{ request()->url()==route('admin.rooms.types.index')?'active':'' }}"
+                               href="{{ route('admin.rooms.types.index') }}">
+                                <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                <span class="menu-title">Room Types</span>
+                            </a>
+                            <!--end:Menu link-->
+                        @endcan
+                    </div>
+                    <!--end:Menu item-->
                 </div>
-                <!--end:Menu item-->
-            </div>
-            <div data-kt-menu-trigger="click"
-                 class="menu-item menu-accordion {{ Str::of(request()->url())->contains('/admin/settings')?'show':'' }}">
-                <!--begin:Menu link-->
-                <span class="menu-link">
-										<span class="menu-icon">
-                                            <i class="bi bi-gear fs-1"></i>
-										</span>
-										<span class="menu-title">
-                                            System Settings
-                                        </span>
-										<span class="menu-arrow"></span>
-									</span>
-                <!--end:Menu link-->
-                <!--begin:Menu sub-->
-                <div class="menu-sub menu-sub-accordion">
+            @endcanany
 
-                    <!--begin:Menu item-->
+            @canany([\App\Constants\Permission::MANAGE_ROLES,\App\Constants\Permission::VIEW_PERMISSIONS,\App\Constants\Permission::MANAGE_USERS])
+                <div data-kt-menu-trigger="click"
+                     class="menu-item menu-accordion {{ Str::of(request()->url())->contains('/admin/settings')?'show':'' }}">
                     <!--begin:Menu link-->
-                    @can(\App\Constants\Permission::MANAGE_USERS)
-                        <a class="menu-link {{ request()->url()==route('admin.settings.users.index')?'active':'' }}"
-                           href="{{ route('admin.settings.users.index') }}">
-                            <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-                            <span class="menu-title">Users</span>
-                        </a>
-                    @endcan
+                    <span class="menu-link">
+                        <span class="menu-icon">
+                            <i class="bi bi-gear fs-1"></i>
+                        </span>
+                        <span class="menu-title">
+                            System Settings
+                        </span>
+                    <span class="menu-arrow"></span>
+                </span>
                     <!--end:Menu link-->
-                    <!--begin:Menu link-->
-                    @can(\App\Constants\Permission::MANAGE_ROLES)
-                        <a class="menu-link  {{ request()->url()==route('admin.settings.roles.index')?'active':'' }}"
-                           href="{{ route('admin.settings.roles.index') }}">
-                            <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-                            <span class="menu-title">Roles</span>
-                        </a>
-                        <!--end:Menu link-->
-                    @endcan
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
 
-                    @can(\App\Constants\Permission::MANAGE_PERMISSIONS)
+                        <!--begin:Menu item-->
                         <!--begin:Menu link-->
-                        <a class="menu-link {{ request()->url()==route('admin.settings.permissions.index')?'active':'' }}"
-
-                           href="{{ route('admin.settings.permissions.index') }}">
-                            <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-                            <span class="menu-title">Permissions</span>
-                        </a>
+                        @can(\App\Constants\Permission::MANAGE_USERS)
+                            <a class="menu-link {{ request()->url()==route('admin.settings.users.index')?'active':'' }}"
+                               href="{{ route('admin.settings.users.index') }}">
+                                <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                <span class="menu-title">Users</span>
+                            </a>
+                        @endcan
                         <!--end:Menu link-->
-                    @endcan
+                        <!--begin:Menu link-->
+                        @can(\App\Constants\Permission::MANAGE_ROLES)
+                            <a class="menu-link  {{ request()->url()==route('admin.settings.roles.index')?'active':'' }}"
+                               href="{{ route('admin.settings.roles.index') }}">
+                                <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                <span class="menu-title">Roles</span>
+                            </a>
+                            <!--end:Menu link-->
+                        @endcan
 
+                        @can(\App\Constants\Permission::VIEW_PERMISSIONS)
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{ request()->url()==route('admin.settings.permissions.index')?'active':'' }}"
+
+                               href="{{ route('admin.settings.permissions.index') }}">
+                                <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                <span class="menu-title">Permissions</span>
+                            </a>
+                            <!--end:Menu link-->
+                        @endcan
+
+                    </div>
+                    <!--end:Menu item-->
                 </div>
-                <!--end:Menu item-->
-            </div>
-            <!--end:Menu sub-->
+            @endcanany
             <!--begin:Menu item-->
             <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                 <!--begin:Menu link-->

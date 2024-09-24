@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  *
@@ -38,9 +39,9 @@ use Illuminate\Support\Str;
  * @method static Builder|Booking whereUserId($value)
  * @mixin Eloquent
  */
-class Booking extends Model
+class Booking extends Model implements Auditable
 {
-    use HasStatusColor, HasEncodedId, HasFactory;
+    use HasStatusColor, HasEncodedId, HasFactory, \OwenIt\Auditing\Auditable;
 
     protected $appends = ['status_color'];
 

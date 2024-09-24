@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
             RoomTypeSeeder::class,
             OccupancySeeder::class,
             BuildingTypeSeeder::class,
-            MaintenanceTypeSeeder::class
+            MaintenanceTypeSeeder::class,
+            PermissionTableSeeder::class
         ]);
     }
 }

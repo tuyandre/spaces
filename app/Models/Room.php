@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Constants\Status;
 use App\Traits\HasEncodedId;
 use App\Traits\HasStatusColor;
 use Eloquent;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
@@ -51,9 +53,9 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @method static Builder|Room whereUpdatedAt($value)
  * @mixin Eloquent
  */
-class Room extends Model implements HasMedia
+class Room extends Model implements HasMedia,Auditable
 {
-    use InteractsWithMedia, HasStatusColor, HasEncodedId, HasFactory;
+    use InteractsWithMedia, HasStatusColor, HasEncodedId, HasFactory,\OwenIt\Auditing\Auditable;
 
     protected $appends = ['status_color'];
 
@@ -89,9 +91,14 @@ class Room extends Model implements HasMedia
     // Check if the room is under maintenance
     public function isUnderMaintenance(): bool
     {
+        $now = now()->toDateString(); // Current date and time
+
+        // Check if there is any active maintenance within the date range for this room
         return $this->maintenances()
-            ->where('status', 'pending')
-            ->exists(); // A room is under maintenance if any 'pending' maintenance exists
+            ->whereDate('start_date', '<=', $now) // Maintenance has started
+            ->whereDate('end_date', '>=', $now)   // Maintenance has not ended
+//            ->where('status', '!=', Status::Completed) // Maintenance is not marked as completed
+            ->exists(); // If such a maintenance record exists, the room is under maintenance
     }
 
 
@@ -107,6 +114,17 @@ class Room extends Model implements HasMedia
 
         // Otherwise, use the status color from the trait
         return $this->getStatusColorFromTrait();
+    }
+
+    public function getStatusAttribute()
+    {
+        // If the room is under maintenance, return 'maintenance'
+        if ($this->isUnderMaintenance()) {
+            return Status::UnderMaintenance;
+        }
+
+        // Otherwise, use the status from the database
+        return $this->attributes['status'];
     }
 
 
