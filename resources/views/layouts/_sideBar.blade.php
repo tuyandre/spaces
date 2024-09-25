@@ -24,48 +24,63 @@
                 <!--end:Menu link-->
             </div>
             <!--end:Menu item-->
-            @can(\App\Constants\Permission::MANAGE_BOOKINGS)
-                <!--begin:Menu item-->
-                <div class="menu-item here">
-                    <!--begin:Menu link-->
-                    <a href="{{ route('admin.bookings.index',['type'=>'all']) }}"
-                       class="menu-link {{ request()->fullUrl() ==route('admin.bookings.index',['type'=>'all'])?'active':'' }}">
-                        <div class="menu-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                 stroke-linejoin="round"
-                                 class="icon icon-tabler icons-tabler-outline icon-tabler-folders">
+
+
+
+            <!--end:Menu item-->
+            <div data-kt-menu-trigger="click"
+                 class="menu-item menu-accordion {{ Str::of(request()->url())->contains('/admin/bookings')?'show':'' }}">
+                <!--begin:Menu link-->
+                <span class="menu-link">
+                        <span class="menu-icon">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="icon icon-tabler icons-tabler-outline icon-tabler-folders">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                 <path
                                     d="M9 4h3l2 2h5a2 2 0 0 1 2 2v7a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2"/>
                                 <path d="M17 17v2a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2h2"/>
                             </svg>
-                        </div>
-                        <span class="menu-title">All Bookings</span>
+                        </span>
+                        <span class="menu-title">
+                            Bookings
+                        </span>
+                        <span class="menu-arrow"></span>
+                    </span>
+                <!--end:Menu link-->
+
+                <!--begin:Menu sub-->
+                <div class="menu-sub menu-sub-accordion">
+                    <!--begin:Menu link-->
+                    <a class="menu-link {{ request()->url()==route('admin.bookings.create')?'active':'' }}"
+                       href="{{ route('admin.bookings.create') }}">
+                        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                        <span class="menu-title">New Booking</span>
                     </a>
                     <!--end:Menu link-->
+                    <!--begin:Menu link-->
+                    <a class="menu-link {{ request()->fullUrlWithoutQuery(['type'=>'all'])==route('admin.bookings.index')?'active':'' }}"
+                       href="{{ route('admin.bookings.index') }}">
+                        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                        <span class="menu-title">My Bookings</span>
+                    </a>
+                    <!--end:Menu link-->
+                    @canany([\App\Constants\Permission::ReviewBooking,\App\Constants\Permission::CancelBooking])
+                        <!--begin:Menu link-->
+                        <a class="menu-link {{ request()->fullUrlWithoutQuery(['type'=>'all'])==route('admin.bookings.index',['type'=>'all'])?'active':'' }}"
+                           href="{{ route('admin.bookings.index',['type'=>'all']) }}">
+                            <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                            <span class="menu-title">All Bookings</span>
+                        </a>
+                        <!--end:Menu link-->
+                    @endcanany
                 </div>
                 <!--end:Menu item-->
-            @endcan
 
-            <!--begin:Menu item-->
-            <div class="menu-item here">
-                <!--begin:Menu link-->
-                <a href="{{ route('admin.bookings.index') }}"
-                   class="menu-link {{ request()->fullUrl() ==route('admin.bookings.index')?'active':'' }}">
-                    <div class="menu-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                             class="icon icon-tabler icons-tabler-outline icon-tabler-bookmarks">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M15 10v11l-5 -3l-5 3v-11a3 3 0 0 1 3 -3h4a3 3 0 0 1 3 3z"/>
-                            <path d="M11 3h5a3 3 0 0 1 3 3v11"/>
-                        </svg>
-                    </div>
-                    <span class="menu-title">My Bookings</span>
-                </a>
-                <!--end:Menu link-->
             </div>
+
+
             <!--end:Menu item-->
             @canany([\App\Constants\Permission::MANAGE_BUILDINGS,\App\Constants\Permission::MANAGE_BUILDING_TYPES])
                 <div data-kt-menu-trigger="click"

@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->string('status')->default(\App\Constants\Status::Pending)->change();
             $table->foreignIdFor(\App\Models\User::class, 'reviewed_by_id')->nullable()->constrained('users');
             $table->dateTime('reviewed_at')->nullable();
+            $table->string('approval_type')->default('manual');
         });
     }
 
@@ -35,6 +36,7 @@ return new class extends Migration {
             $table->dropColumn('guest_phone');
             $table->dropConstrainedForeignId('reviewed_by_id');
             $table->dropColumn('reviewed_at');
+            $table->dropColumn('approval_type');
         });
     }
 };

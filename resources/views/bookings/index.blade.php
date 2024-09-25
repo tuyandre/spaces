@@ -58,10 +58,9 @@
                 <table class="table table-row-dashed table-row-gray-300 gy-4" id="myTable">
                     <thead>
                     <tr class="text-start text-gray-800 fw-bold fs-7 text-uppercase">
+                        <th>Check In / Out</th>
                         <th class="tw-min-w-32">#</th>
                         <th class="tw-min-w-32">Room</th>
-                        <th>
-                            Check In / Out
                         <th>Status</th>
                         <th>Options</th>
                     </tr>
@@ -81,6 +80,19 @@
                 serverSide: true,
                 ajax: '{!! request()->fullUrl() !!}',
                 columns: [
+
+                    {
+                        data: 'start_date', name: 'start_date',
+                        render: function (data, type, row) {
+                            // return date and time in yyyy-mm-dd hh:mm:ss format
+                            $startDate = (new Date(data)).toISOString().slice(0, 16).replace('T', ',');
+                            $endDate = (new Date(row.end_date)).toISOString().slice(0, 16).replace('T', ',');
+                            return `<div>
+                                    <p>${$startDate} - ${$endDate}</p>
+                                    <p class="text-muted">${moment($startDate).fromNow()} - ${moment($endDate).fromNow()}</p>
+                                    </div>`;
+                        }
+                    },
                     {
                         data: 'booking_code', name: 'booking_code',
                         render: function (data, type, row) {
@@ -105,25 +117,14 @@
                         }
                     },
                     {
-                        data: 'start_date', name: 'start_date',
-                        render: function (data, type, row) {
-                            // return date and time in yyyy-mm-dd hh:mm:ss format
-                            $startDate = (new Date(data)).toISOString().slice(0, 16).replace('T', ',');
-                            $endDate = (new Date(row.end_date)).toISOString().slice(0, 16).replace('T', ',');
-                            return `<div>
-                                    <p>${$startDate} - ${$endDate}</p>
-                                    <p class="text-muted">${moment($startDate).fromNow()} - ${moment($endDate).fromNow()}</p>
-                                    </div>`;
-                        }
-                    },
-                    {
                         data: 'status', name: 'status',
                         render: function (data, type, row) {
                             return `<span class="badge text-${row.status_color} bg-${row.status_color}-subtle rounded-pill">${data}</span>`;
                         }
                     },
                     {data: 'action', name: 'action', orderable: false, searchable: false},
-                ]
+                ],
+                order: [[0, 'desc']]
             });
 
             $(document).on('click', '.js-cancel', function (e) {

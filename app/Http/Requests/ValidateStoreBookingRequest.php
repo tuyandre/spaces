@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Constants\Status;
 use App\Models\Room;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -47,18 +48,17 @@ class ValidateStoreBookingRequest extends FormRequest
                                 $query->where('start_date', '<=', $this->end_date)
                                     ->where('end_date', '>=', $this->start_date);
                             })
-                            ->whereIn('status', ['confirmed', 'pending']) // Only consider active bookings
-                            ->exists();
+                            ->whereIn('status', [Status::Approved, Status::Pending]) // Consider only active bookings
+                            ->exists(); // Check if any such booking exists
 
                         if ($hasOverlappingBookings) {
                             $fail('The room is already booked for the selected dates.');
                         }
                     }
-
                 }
             ],
             'start_date' => ['required', 'date_format:Y-m-d\TH:i', 'after_or_equal:now'],
-            'end_date' => ['required', 'date_format:Y-m-d\TH:i', 'after:start_datetime'],
+            'end_date' => ['required', 'date_format:Y-m-d\TH:i', 'after:start_date'],
             'is_guest_booking' => ['nullable', 'string'],
             'guest_name' => ['nullable','required_if:is_guest_booking,on', 'string'],
             'guest_email' => ['nullable','required_if:is_guest_booking,on', 'email'],

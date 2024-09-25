@@ -127,6 +127,10 @@
                             <div class="form-control-plaintext">{{ $booking->room->roomType->name }}</div>
                         </div>
                         <div class="col-md-6 col-lg-4">
+                            <label class="form-label">Room Name:</label>
+                            <div class="form-control-plaintext">{{ $booking->room->name }}</div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
                             <label class="form-label">Room Number:</label>
                             <div class="form-control-plaintext">{{ $booking->room->room_number }}</div>
                         </div>

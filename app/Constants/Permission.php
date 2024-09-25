@@ -26,6 +26,10 @@ class Permission
             self::MANAGE_BOOKINGS,
             self::VIEW_PERMISSIONS,
             self::MANAGE_MAINTENANCE,
+            self::MANAGE_BUILDING_TYPES,
+            self::MANAGE_ROLES,
+            self::CancelBooking,
+            self::ReviewBooking
         ];
     }
 
