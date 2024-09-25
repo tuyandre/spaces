@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Constants\Status;
 use App\Models\Booking;
+use App\Notifications\BookingAutoApprovedNotification;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Illuminate\Support\Carbon;
@@ -43,7 +44,10 @@ class ApprovePendingBookings extends Command implements PromptsForMissingInput
             $booking->approval_type = 'auto';
             $booking->save();
 
-            $this->info("Booking ID {$booking->id} has been auto-approved.");
+            // Notify the user about the approval
+            $booking->user->notify(new BookingAutoApprovedNotification($booking));
+
+            $this->info("Booking ID {$booking->id} has been auto-approved, and user has been notified.");
         }
 
         $this->info('Auto-approval of pending bookings completed.');

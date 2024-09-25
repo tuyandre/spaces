@@ -11,16 +11,16 @@ class PasswordChanged
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response) $next
      */
     public function handle(Request $request, Closure $next): Response
     {
 
-     /*   if (auth()->check() && auth()->user()->password_changed_at === null) {
+        if (auth()->check() && auth()->user()->password_changed_at == null) {
             auth()->logout();
             return redirect()->route('password.request')
                 ->with('error', 'You need to change your password before logging in.');
-        }*/
+        }
 
         return $next($request);
     }

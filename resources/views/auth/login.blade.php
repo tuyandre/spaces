@@ -1,72 +1,85 @@
 @extends('layouts.auth')
 
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8 col-lg-5">
-                <div class="card tw-shadow-lg tw-rounded-3xl">
-                    <div class="card-body">
-                        <h1>
-                            Login
-                        </h1>
-                        <p>
-                            Please enter your email address and password to login.
-                        </p>
-                        <form method="POST" action="{{ route('login') }}">
-                            @csrf
 
-                            <div class="mb-3">
-                                <label for="email"
-                                       class="form-label">{{ __('Email Address') }}</label>
+    <div class=" p-10 p-lg-15 mx-auto">
+        <!--begin::Form-->
+        <form class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" action="{{ route('login') }}" method="post">
+            @csrf
+            <!--begin::Heading-->
+            <div class="text-center mb-10">
+                <!--begin::Title-->
+                <h1 class="text-dark mb-3">Sign In to SMS</h1>
+                <!--end::Title-->
+                <p>
+                    Enter your email and password to login to your account
+                </p>
+            </div>
+            <!--begin::Heading-->
+            <!--begin::Input group-->
+            <div class="fv-row mb-10 fv-plugins-icon-container">
+                <!--begin::Label-->
+                <label class="form-label fs-6 fw-bold text-dark">Email</label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <input id="email" type="email" class="form-control form-control-lg @error('email') is-invalid @enderror"
+                       name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                @error('email')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
 
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                                       name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-
-                            <div class=" mb-3">
-                                <label for="password" class="form-label">{{ __('Password') }}</label>
-
-                                <input id="password" type="password"
-                                       class="form-control @error('password') is-invalid @enderror" name="password"
-                                       required
-                                       autocomplete="current-password">
-
-                                @error('password')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-
-                            <div class=" mb-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember"
-                                           id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class=" mb-0">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-                                <a class="btn btn-link d-flex" href="{{ route('password.request') }}">
-                                    {{ __('Forgot Your Password?') }}
-                                </a>
-                            </div>
-                        </form>
-                    </div>
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="fv-row mb-10 fv-plugins-icon-container">
+                <!--begin::Wrapper-->
+                <div class="d-flex flex-stack mb-2">
+                    <!--begin::Label-->
+                    <label class="form-label fw-bold text-dark fs-6 mb-0">Password</label>
+                    <!--end::Label-->
+                </div>
+                <!--end::Wrapper-->
+                <!--begin::Input-->
+                <input class="form-control form-control-lg @error('password') is-invalid @enderror" type="password" name="password"
+                       autocomplete="off">
+                @error('password')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>
+            <!--end::Input group-->
+            <div class="mb-10">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="remember"
+                           id="remember" {{ old('remember') ? 'checked' : '' }}>
+                    <label class="form-check-label text-dark" for="remember">
+                        {{ __('Remember Me') }}
+                    </label>
                 </div>
             </div>
-        </div>
+
+            <!--begin::Actions-->
+            <div class="text-center">
+                <!--begin::Submit button-->
+                <button type="submit" id="kt_sign_in_submit" class="btn btn-lg btn-primary w-100 mb-5">
+                    <span class="indicator-label">
+                        {{ __('Login') }}
+                    </span>
+                </button>
+                <!--end::Submit button-->
+                <!--begin::Separator-->
+                <div class="text-center text-muted text-uppercase fw-bold mb-5">or</div>
+                <!--end::Separator-->
+
+                <a class="btn btn-link d-block" href="{{ route('password.request') }}">
+                    {{ __('Forgot Your Password?') }}
+                </a>
+            </div>
+            <!--end::Actions-->
+        </form>
+        <!--end::Form-->
     </div>
 @endsection

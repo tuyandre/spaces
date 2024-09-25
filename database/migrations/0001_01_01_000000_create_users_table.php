@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->timestamp('password_changed_at')->nullable();
             $table->string('password');
             $table->string('category')->default('Guest');
             $table->boolean('is_super_admin')->default(false);
