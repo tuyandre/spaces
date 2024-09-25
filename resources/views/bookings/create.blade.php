@@ -58,47 +58,107 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="mb-3">
-                            <label for="room_id" class="form-label">Room</label>
-                            <select name="room_id" id="room_id" class="form-select">
-                                <option value="">Select Room</option>
-                                @foreach($rooms as $room)
-                                    <option value="{{ $room->id }}"
-                                            data-details-url="{{ route('admin.rooms.details', encodeId($room->id)) }}"
-                                    >{{ $room->name }}</option>
+                            <label for="room_type_id" class="form-label">Room Type</label>
+                            <select name="room_type_id" id="room_type_id" class="form-select">
+                                <option value="">Select Room Type</option>
+                                @foreach($roomTypes as $roomType)
+                                    <option value="{{ $roomType->id }}">{{ $roomType->name }}</option>
                                 @endforeach
                             </select>
                         </div>
+                    </div>
+                    <div class="col-lg-6">
                         <div class="mb-3">
-                            <label for="start_date" class="form-label">Start Date</label>
-                            <input type="date" name="start_date" id="start_date" class="form-control">
+                            <label for="guests" class="form-label">
+                                Number of Guests
+                            </label>
+                            <input type="number" name="guests" id="guests" class="form-control"/>
                         </div>
+                    </div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
                         <div class="mb-3">
-                            <label for="end_date" class="form-label">End Date</label>
-                            <input type="date" name="end_date" id="end_date" class="form-control">
+                            <label for="room_id" class="form-label">Room</label>
+                            <select name="room_id" id="room_id" class="form-select">
+                                <option value="">Select Room</option>
+                            </select>
                         </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div id="room_details" class="mb-3">
+                            <label for="room_details" class="form-label">Room Details</label>
+                            <div
+                                class="form-control form-control-plaintext border border-dashed border-secondary px-3 rounded">
+                                No room selected yet. Please select a room from the dropdown.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label for="start_date" class="form-label">Start Date Time</label>
+                            <input type="datetime-local" name="start_date" id="start_date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label for="end_date" class="form-label">End Date Time</label>
+                            <input type="datetime-local" name="end_date" id="end_date" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input onchange="toggleGuestFields(this)" class="form-check-input" type="checkbox"
+                               name="is_guest_booking" id="is_guest_booking">
+                        <label class="form-check-label" for="is_guest_booking">
+                            This is a guest booking (not registered user)
+                        </label>
+                    </div>
+                    <div id="is_guest_booking_help_text" class="form-text">
+                        Note that if you are booking a guest, you will need to provide their name, email and phone number.
+                    </div>
+                </div>
+
+                <div id="guest_fields" style="display: none;">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="guest_name">Guest Name</label>
+                                <input class="form-control" type="text" name="guest_name" id="guest_name">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="guest_email">Guest Email</label>
+                                <input class="form-control" type="email" name="guest_email" id="guest_email">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="guest_phone">Guest Phone</label>
+                                <input class="form-control" type="text" name="guest_phone" id="guest_phone">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
                         <div class="mb-3">
                             <label for="purpose]" class="form-label">Purpose</label>
                             <textarea name="purpose" id="purpose" class="form-control"></textarea>
                         </div>
-
-                        <div class="my-5 d-inline-flex gap-4">
-                            <button type="submit" class="btn btn-primary">Create Booking</button>
-                            <a href="{{ route('admin.bookings.index') }}" class="btn btn-secondary">Cancel</a>
-                        </div>
-
                     </div>
-                    <div class="col-lg-6">
-                        {{--                        room details--}}
-                        <div class="card card-body">
-                            <h3 class="fw-bold">Room Details</h3>
-                            <p class="small text-muted">
-                                Below are the details of the room you selected.
-                            </p>
 
-                            <div id="room_details"></div>
-                        </div>
+                </div>
 
-                    </div>
+                <div class="my-5 d-inline-flex gap-4">
+                    <button type="submit" class="btn btn-primary">Create Booking</button>
+                    <a href="{{ route('admin.bookings.index') }}" class="btn btn-secondary">Cancel</a>
                 </div>
 
             </form>
@@ -110,7 +170,42 @@
 @push('scripts')
 
     <script>
+        function toggleGuestFields(checkbox) {
+            const guestFields = document.getElementById('guest_fields');
+            guestFields.style.display = checkbox.checked ? 'block' : 'none';
+        }
+
+        let fetchRooms = function (roomType, capacity) {
+            let url = "{{ route('admin.rooms.all-by-type-capacity') }}" + `?type=${roomType}&guests=${capacity}`;
+            let $roomSelect = $('#room_id');
+            $roomSelect.empty();
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (response) {
+                    $roomSelect.html(`<option value="">Select Room</option>`);
+                    $.each(response, function (index, room) {
+                        $roomSelect.append(`<option value="${room.id}" data-details-url="${room.details_url}">${room.name}</option>`);
+                    });
+                }
+            });
+        };
+
         $(document).ready(function () {
+
+            $('#room_type_id').on('change', function () {
+                let roomType = $(this).val();
+                let capacity = $('#guests').val();
+                fetchRooms(roomType, capacity);
+            });
+
+            $('#guests').on('change', function () {
+                let roomType = $('#room_type_id').val();
+                let capacity = $(this).val();
+                fetchRooms(roomType, capacity);
+            });
+
+
             $('#room_id').on('change', function () {
                 let url = $(this).find(':selected').data('details-url');
 

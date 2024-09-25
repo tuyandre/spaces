@@ -55,14 +55,13 @@
         <!--begin::Content-->
         <div class="my-3">
             <div class="table-responsive">
-                <table class="table ps-2 align-middle border rounded table-row-dashed fs-6 g-5" id="myTable">
+                <table class="table table-row-dashed table-row-gray-300 gy-4" id="myTable">
                     <thead>
                     <tr class="text-start text-gray-800 fw-bold fs-7 text-uppercase">
-                        <th>Room</th>
-                        <th>Building</th>
-                        <th>Type</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
+                        <th class="tw-min-w-32">#</th>
+                        <th class="tw-min-w-32">Room</th>
+                        <th>
+                            Check In / Out
                         <th>Status</th>
                         <th>Options</th>
                     </tr>
@@ -82,17 +81,39 @@
                 serverSide: true,
                 ajax: '{!! request()->fullUrl() !!}',
                 columns: [
-                    {data: 'room.name', name: 'room.name'},
-                    {data: 'room.building.name', name: 'room.building.name'},
-                    {data: 'room.room_type.name', name: 'room.roomType.name'},
-                    {data: 'start_date', name: 'start_date',
+                    {
+                        data: 'booking_code', name: 'booking_code',
                         render: function (data, type, row) {
-                            return (new Date(data)).toISOString().slice(0, 10);
+                            const isGuest = row.is_guest_booking;
+                            return `<div>
+                                    <p>${data}</p>
+                                    ${isGuest ? `<span class="text-info bg-info-subtle rounded-pill fs-6 fw-bold px-2 py-1 text-center small m-0">Guest Booking</span>` : `<span class="small text-muted">
+                                        ${row.user.name}
+                                        </span>`}
+                                    </div>`;
                         }
                     },
-                    {data: 'end_date', name: 'end_date',
+                    {
+                        data: 'room.name', name: 'room.name',
                         render: function (data, type, row) {
-                            return (new Date(data)).toISOString().slice(0, 10);
+                            return `<div>
+                                    <p>
+                                        <strong>Name :</strong> ${data} - <strong>Type:</strong> ${row.room.room_type.name}
+                                        </p>
+                                    <p class="text-muted">Number: ${row.room.room_number} / Floor: ${row.room.floor} </p>
+                                    </div>`;
+                        }
+                    },
+                    {
+                        data: 'start_date', name: 'start_date',
+                        render: function (data, type, row) {
+                            // return date and time in yyyy-mm-dd hh:mm:ss format
+                            $startDate = (new Date(data)).toISOString().slice(0, 16).replace('T', ',');
+                            $endDate = (new Date(row.end_date)).toISOString().slice(0, 16).replace('T', ',');
+                            return `<div>
+                                    <p>${$startDate} - ${$endDate}</p>
+                                    <p class="text-muted">${moment($startDate).fromNow()} - ${moment($endDate).fromNow()}</p>
+                                    </div>`;
                         }
                     },
                     {

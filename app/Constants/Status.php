@@ -23,6 +23,7 @@ class Status
     const InProgress = "In Progress";
     const Scheduled = "Scheduled";
     const Unknown = "Unknown";
+    const Pending = "Pending";
 
 
     public static function roomStatuses(): array

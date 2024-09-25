@@ -12,7 +12,7 @@ trait HasStatusColor
 
         return match ($status) {
             strtolower(Status::UnderMaintenance),
-            strtolower(Status::Draft) => 'warning',
+            strtolower(Status::Pending) => 'warning',
 
             strtolower(Status::Submitted),
             strtolower(Status::InProgress),

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Constants\Permission;
+use App\Constants\Status;
 use App\Traits\HasEncodedId;
 use App\Traits\HasStatusColor;
 use Eloquent;
@@ -9,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -82,9 +85,35 @@ class Booking extends Model implements Auditable
         return 'BKG' . str_pad($code, 5, '0', STR_PAD_LEFT);
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function flow(): MorphMany
+    {
+        return $this->morphMany(FlowHistory::class, 'flowable', 'model_type','model_id');
+    }
+
+
+    public function canBeCanceled(): bool
+    {
+        $bookingStatus = strtolower($this->status);
+        $pendingStatus = strtolower(Status::Pending);
+        if ($bookingStatus != $pendingStatus)
+            return false;
+        // the logged-in user is the owner of the booking or have the permission to cancel bookings
+        return auth()->user()->id == $this->user_id || auth()->user()->can(Permission::CancelBooking);
+    }
+
+    public function canBeReviewed()
+    {
+        $bookingStatus = strtolower($this->status);
+        $pendingStatus = strtolower(Status::Pending);
+        if ($bookingStatus != $pendingStatus)
+            return false;
+        // the logged-in user  have the permission to review bookings
+        return auth()->user()->can(Permission::ReviewBooking);
     }
 
 }

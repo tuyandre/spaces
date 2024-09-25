@@ -143,4 +143,21 @@ class RoomController extends Controller
 
         return view('rooms._details', compact('room'));
     }
+
+    public function rooms(Request $request)
+    {
+        $data = $request->validate([
+            'type' => ['required'],
+            'guests' => ['required']
+        ]);
+
+        $type = $data['type'];
+        $guests = $data['guests'];
+        // find rooms with the given type and capacity
+        $rooms = Room::query()
+            ->where('room_type_id','=', $type)
+            ->where('capacity', '>=', $guests)
+            ->get();
+        return response()->json($rooms);
+    }
 }

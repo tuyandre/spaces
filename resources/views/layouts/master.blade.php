@@ -11,7 +11,8 @@
 
     <x-fav-icon/>
     @livewireStyles
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700"/>        <!--end::Fonts-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700"/>
+    <!--end::Fonts-->
     @vite(['resources/sass/master.scss', 'resources/js/master.js','resources/css/app.css'])
     @yield('styles')
 </head>
@@ -106,6 +107,17 @@
             format: 'YYYY-MM-DD',
         });
     });
+    document.querySelectorAll('.datetimepicker').forEach(function (el) {
+        new Pikaday({
+            field: el,
+            format: 'YYYY-MM-DD HH:mm',
+            timeFormat: 'HH:mm',
+            defaultDate: new Date(),
+            setDefaultDate: true,
+        });
+    });
+
+
     $(document).ready(function () {
         $(document).on('click', '.js-delete', function (e) {
             e.preventDefault();

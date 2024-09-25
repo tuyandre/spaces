@@ -13,7 +13,8 @@ class Permission
     public const MANAGE_ROLES = 'manage_roles';
     public const  VIEW_PERMISSIONS = 'view_permissions';
     public const MANAGE_MAINTENANCE = 'manage_maintenance';
-
+    const CancelBooking = "cancel_booking";
+    const ReviewBooking = "review_booking";
 
     public static function all(): array
     {

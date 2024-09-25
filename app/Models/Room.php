@@ -53,11 +53,11 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @method static Builder|Room whereUpdatedAt($value)
  * @mixin Eloquent
  */
-class Room extends Model implements HasMedia,Auditable
+class Room extends Model implements HasMedia, Auditable
 {
-    use InteractsWithMedia, HasStatusColor, HasEncodedId, HasFactory,\OwenIt\Auditing\Auditable;
+    use InteractsWithMedia, HasStatusColor, HasEncodedId, HasFactory, \OwenIt\Auditing\Auditable;
 
-    protected $appends = ['status_color'];
+    protected $appends = ['status_color', 'details_url'];
 
     public function registerMediaConversions(Media $media = null): void
     {
@@ -125,6 +125,11 @@ class Room extends Model implements HasMedia,Auditable
 
         // Otherwise, use the status from the database
         return $this->attributes['status'];
+    }
+
+    public function getDetailsUrlAttribute(): string
+    {
+        return route('admin.rooms.details', encodeId($this->attributes['id']));
     }
 
 
