@@ -19,7 +19,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property string $name
@@ -51,6 +51,16 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @method static Builder|Room whereRoomTypeId($value)
  * @method static Builder|Room whereStatus($value)
  * @method static Builder|Room whereUpdatedAt($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
+ * @property-read int|null $audits_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookings
+ * @property-read int|null $bookings_count
+ * @property-read string $details_url
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\RoomInventory> $inventoryItems
+ * @property-read int|null $inventory_items_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\RoomMaintenance> $maintenances
+ * @property-read int|null $maintenances_count
+ * @method static \Database\Factories\RoomFactory factory($count = null, $state = [])
  * @mixin Eloquent
  */
 class Room extends Model implements HasMedia, Auditable
@@ -132,5 +142,8 @@ class Room extends Model implements HasMedia, Auditable
         return route('admin.rooms.details', encodeId($this->attributes['id']));
     }
 
-
+    public function inventoryItems(): HasMany
+    {
+        return $this->hasMany(RoomInventory::class);
+    }
 }

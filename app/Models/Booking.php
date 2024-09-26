@@ -11,13 +11,14 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property int $room_id
@@ -40,6 +41,35 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @method static Builder|Booking whereStatus($value)
  * @method static Builder|Booking whereUpdatedAt($value)
  * @method static Builder|Booking whereUserId($value)
+ * @property string|null $booking_code
+ * @property int|null $guests
+ * @property int $is_guest_booking
+ * @property string|null $guest_name
+ * @property string|null $guest_email
+ * @property string|null $guest_phone
+ * @property int|null $reviewed_by_id
+ * @property string|null $reviewed_at
+ * @property string|null $approval_type
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
+ * @property-read int|null $audits_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\FlowHistory> $flow
+ * @property-read int|null $flow_count
+ * @property-read string $status_color
+ * @property-read \App\Models\Invoice|null $invoice
+ * @property-read \App\Models\Room $room
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Service> $services
+ * @property-read int|null $services_count
+ * @property-read \App\Models\User $user
+ * @method static \Database\Factories\BookingFactory factory($count = null, $state = [])
+ * @method static Builder|Booking whereApprovalType($value)
+ * @method static Builder|Booking whereBookingCode($value)
+ * @method static Builder|Booking whereGuestEmail($value)
+ * @method static Builder|Booking whereGuestName($value)
+ * @method static Builder|Booking whereGuestPhone($value)
+ * @method static Builder|Booking whereGuests($value)
+ * @method static Builder|Booking whereIsGuestBooking($value)
+ * @method static Builder|Booking whereReviewedAt($value)
+ * @method static Builder|Booking whereReviewedById($value)
  * @mixin Eloquent
  */
 class Booking extends Model implements Auditable
@@ -116,4 +146,15 @@ class Booking extends Model implements Auditable
         return auth()->user()->can(Permission::ReviewBooking);
     }
 
+    public function invoice(): HasOne
+    {
+        return $this->hasOne(Invoice::class);
+    }
+
+    public function services()
+    {
+        return $this->belongsToMany(Service::class, 'booking_service')
+            ->withPivot('quantity', 'price')
+            ->withTimestamps();
+    }
 }

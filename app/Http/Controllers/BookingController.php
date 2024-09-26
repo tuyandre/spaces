@@ -9,6 +9,7 @@ use App\Models\Room;
 use App\Models\RoomType;
 use App\Models\User;
 use App\Notifications\BookingReviewNotification;
+use App\Services\InvoiceService;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -177,6 +178,12 @@ class BookingController extends Controller
             $user = User::find($booking->user_id);
         }
         $user->notify(new BookingReviewNotification($booking));
+        if ($status = $data['status'] == Status::Approved){
+            // Generate invoice after booking approval
+            $invoiceService = new InvoiceService();
+            $invoiceService->createInvoice($booking);
+        }
+
         DB::commit();
 
         if (\request()->ajax()) {

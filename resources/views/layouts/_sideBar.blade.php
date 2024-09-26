@@ -84,9 +84,9 @@
             @canany([\App\Constants\Permission::MANAGE_BUILDINGS,\App\Constants\Permission::MANAGE_BUILDING_TYPES])
                 <div data-kt-menu-trigger="click"
                      class="menu-item menu-accordion {{ Str::of(request()->url())->contains('/admin/buildings')?'show':'' }}">
-                    @can(\App\Constants\Permission::MANAGE_BUILDINGS)
-                        <!--begin:Menu link-->
-                        <span class="menu-link">
+
+                    <!--begin:Menu link-->
+                    <span class="menu-link">
                         <span class="menu-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -102,11 +102,12 @@
                         </span>
                         <span class="menu-arrow"></span>
                     </span>
-                        <!--end:Menu link-->
-                    @endcan
-                    @can(\App\Constants\Permission::MANAGE_BUILDING_TYPES)
-                        <!--begin:Menu sub-->
-                        <div class="menu-sub menu-sub-accordion">
+                    <!--end:Menu link-->
+
+
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        @can(\App\Constants\Permission::MANAGE_BUILDINGS)
                             <!--begin:Menu link-->
                             <a class="menu-link {{ request()->url()==route('admin.buildings.index')?'active':'' }}"
                                href="{{ route('admin.buildings.index') }}">
@@ -114,7 +115,8 @@
                                 <span class="menu-title">Buildings</span>
                             </a>
                             <!--end:Menu link-->
-
+                        @endcan
+                        @can(\App\Constants\Permission::MANAGE_BUILDING_TYPES)
                             <!--begin:Menu link-->
                             <a class="menu-link {{ request()->url()==route('admin.buildings.types.index')?'active':'' }}"
                                href="{{ route('admin.buildings.types.index') }}">
@@ -122,9 +124,10 @@
                                 <span class="menu-title">Building Types</span>
                             </a>
                             <!--end:Menu link-->
-                        </div>
-                        <!--end:Menu item-->
-                    @endcan
+                        @endcan
+                    </div>
+                    <!--end:Menu item-->
+
                 </div>
             @endcanany
 
@@ -229,7 +232,8 @@
                 </div>
             @endcanany
             <!--begin:Menu item-->
-            <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Str::of(request()->url())->contains('/admin/reports')?'show':'' }}">
+            <div data-kt-menu-trigger="click"
+                 class="menu-item menu-accordion {{ Str::of(request()->url())->contains('/admin/reports')?'show':'' }}">
                 <!--begin:Menu link-->
                 <span class="menu-link">
 										<span class="menu-icon">

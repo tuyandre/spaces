@@ -29,6 +29,24 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|RoomMaintenance whereMaintenanceType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RoomMaintenance whereRoomId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RoomMaintenance whereUpdatedAt($value)
+ * @property int $maintenance_type_id
+ * @property \Illuminate\Support\Carbon $start_date
+ * @property \Illuminate\Support\Carbon|null $end_date
+ * @property string $status
+ * @property string|null $assigned_technician
+ * @property string|null $scheduled_at
+ * @property string|null $completed_at
+ * @property-read string $status_color
+ * @property-read string $status_icon
+ * @property-read \App\Models\MaintenanceType $maintenanceType
+ * @property-read \App\Models\Room $room
+ * @method static \Illuminate\Database\Eloquent\Builder|RoomMaintenance whereAssignedTechnician($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RoomMaintenance whereCompletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RoomMaintenance whereEndDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RoomMaintenance whereMaintenanceTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RoomMaintenance whereScheduledAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RoomMaintenance whereStartDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RoomMaintenance whereStatus($value)
  * @mixin \Eloquent
  */
 class RoomMaintenance extends Model
@@ -57,8 +75,8 @@ class RoomMaintenance extends Model
     public function getStatusAttribute(): string
     {
         $now = now();
-        $start = $this->start_date;
-        $end = $this->end_date;
+        $start = $this->start_date->startOfDay();
+        $end = $this->end_date->endOfDay();
 
         if ($now->isBefore($start)) {
             return Status::Scheduled;

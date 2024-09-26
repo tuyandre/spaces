@@ -6,11 +6,16 @@ use App\Constants\Status;
 use App\Models\MaintenanceType;
 use App\Models\Room;
 use App\Models\RoomMaintenance;
+use App\Models\User;
+use App\Notifications\MaintenanceScheduled;
 use Illuminate\Http\Request;
 
 class RoomMaintenanceController extends Controller
 {
     // Create a maintenance record for a room
+    /**
+     * @throws \Throwable
+     */
     public function store(Request $request, Room $room)
     {
         $data = $request->validate([
@@ -22,9 +27,9 @@ class RoomMaintenanceController extends Controller
 
         // Check for overlapping maintenance
         $overlap = RoomMaintenance::where('room_id', '=', $room->id)
+            ->where('maintenance_type_id', '=', $data['maintenance_type_id'])
             ->where(function ($query) use ($data) {
                 $query->whereBetween('start_date', [$data['start_date'], $data['end_date']])
-                    ->orWhereBetween('end_date', [$data['start_date'], $data['end_date']])
                     ->orWhere(function ($query) use ($data) {
                         $query->where('start_date', '<=', $data['start_date'])
                             ->where('end_date', '>=', $data['end_date']);
@@ -37,9 +42,17 @@ class RoomMaintenanceController extends Controller
             // return back with error message as laravel validation error
             return response()->json(['error' => $message], 422);
         }
+        \DB::beginTransaction();
 
-
-        $room->maintenances()->create($data);
+        $maintenance = $room->maintenances()->create($data);
+        // notify admin users
+        $adminUsers = User::query()
+            ->where('is_admin', '=', true)
+            ->get();
+        foreach ($adminUsers as $user) {
+            $user->notify(new MaintenanceScheduled($maintenance));
+        }
+        \DB::commit();
         return response()->json(['success' => 'Room maintenance scheduled successfully']);
     }
 
@@ -76,9 +89,9 @@ class RoomMaintenanceController extends Controller
     public function destroy(RoomMaintenance $maintenance)
     {
         $maintenance->delete();
-       if (\request()->ajax()){
-           return response()->json(['success' => 'Room maintenance deleted successfully']);
-       }
+        if (\request()->ajax()) {
+            return response()->json(['success' => 'Room maintenance deleted successfully']);
+        }
         return back()->with('success', 'Room maintenance deleted successfully');
     }
 }

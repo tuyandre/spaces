@@ -11,7 +11,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property string $name
@@ -44,6 +44,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @method static \Illuminate\Database\Eloquent\Builder|Building whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Building whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Building whereUpdatedAt($value)
+ * @method static \Database\Factories\BuildingFactory factory($count = null, $state = [])
  * @mixin \Eloquent
  */
 class Building extends Model implements HasMedia

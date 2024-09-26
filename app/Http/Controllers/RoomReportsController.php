@@ -22,7 +22,6 @@ class RoomReportsController extends Controller
                 ->whereIn('bookings.status', ['Approved', 'Completed']) // Only count approved/completed bookings
                 ->groupBy('room_number')
                 ->having('booking_count', '>', 0)
-                ->limit(5)
                 ->get();
             return response()->json($roomUtilization);
         }

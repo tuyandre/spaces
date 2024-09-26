@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->boolean('is_active')->default(true);
             $table->string('phone_number')->nullable();
             $table->foreignIdFor(Department::class)->nullable()->constrained();
+            $table->boolean('is_admin')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

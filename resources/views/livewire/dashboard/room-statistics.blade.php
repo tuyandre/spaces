@@ -1,6 +1,6 @@
 <div class="row mb-3">
     <div class="col-12">
-        <div class="card card-flush mb-3 h-xl-100">
+        <div class="card card-flush mb-3 h-xl-100  tw-border-zinc-300">
             <!--begin::Heading-->
             <div
                 class="card-header rounded bgi-no-repeat bgi-size-cover bgi-position-y-top bgi-position-x-center align-items-start h-200px tw-bg-cover tw-bg-top " style="background-image: url({{ asset('assets/media/shapes/top-green.png') }})"
@@ -32,7 +32,7 @@
                         <!--begin::Col-->
                         <div class="col-12 col-md-6 col-xl-3">
                             <!--begin::Items-->
-                            <div class="bg-gray-100  border tw-border-zinc-200 bg-opacity-70 rounded-2 px-6 py-5">
+                            <div class="bg-gray-100  bg-opacity-70 rounded-2 px-6 py-5">
 
                                 <span class="">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"
@@ -55,7 +55,7 @@
                                 <div class="m-0">
                                     <!--begin::Number-->
                                     <span
-                                        class="text-gray-700 d-block  lh-1 ls-n1 mb-1 display-3">{{number_format($totalBuildings) }}</span>
+                                        class="text-gray-700 d-block  lh-1 ls-n1 mb-1 display-5 my-4">{{number_format($totalBuildings) }}</span>
                                     <!--end::Number-->
 
                                     <!--begin::Desc-->
@@ -72,7 +72,7 @@
                         <!--begin::Col-->
                         <div class="col-12 col-md-6 col-xl-3">
                             <!--begin::Items-->
-                            <div class="bg-gray-100  border tw-border-zinc-200 bg-opacity-70 rounded-2 px-6 py-5">
+                            <div class="bg-gray-100  bg-opacity-70 rounded-2 px-6 py-5">
 
                                 <span class="">
                                   <svg  xmlns="http://www.w3.org/2000/svg"  width="48"  height="48"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-bed-flat"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 11m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M10 13h11v-2a3 3 0 0 0 -3 -3h-8v5z" /><path d="M3 16h18" /></svg>
@@ -82,7 +82,7 @@
                                 <div class="m-0">
                                     <!--begin::Number-->
                                     <span
-                                        class="text-gray-700 d-block  lh-1 ls-n1 mb-1 display-3">{{number_format($totalRooms) }}</span>
+                                        class="text-gray-700 d-block  lh-1 ls-n1 mb-1  display-5 my-4">{{number_format($totalRooms) }}</span>
                                     <!--end::Number-->
 
                                     <!--begin::Desc-->
@@ -97,7 +97,7 @@
                         <!--begin::Col-->
                         <div class="col-12 col-md-6 col-xl-3">
                             <!--begin::Items-->
-                            <div class="bg-gray-100  border tw-border-zinc-200 bg-opacity-70 rounded-2 px-6 py-5">
+                            <div class="bg-gray-100   bg-opacity-70 rounded-2 px-6 py-5">
                                 <!--begin::Symbol-->
                                 <span class="text-success">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"
@@ -116,7 +116,7 @@
                                 <div class="m-0">
                                     <!--begin::Number-->
                                     <span
-                                        class="text-success-emphasis d-block  lh-1 ls-n1 mb-1 display-3">{{number_format($availableRooms) }}</span>
+                                        class="text-success-emphasis d-block  lh-1 ls-n1 mb-1 display-5 my-4">{{number_format($availableRooms) }}</span>
                                     <!--end::Number-->
 
                                     <!--begin::Desc-->
@@ -133,7 +133,7 @@
                         <!--begin::Col-->
                         <div class="col-12 col-md-6 col-xl-3">
                             <!--begin::Items-->
-                            <div class="bg-gray-100  border tw-border-zinc-200 bg-opacity-70 rounded-2 px-6 py-5">
+                            <div class="bg-gray-100 bg-opacity-70 rounded-2 px-6 py-5">
                                 <!--begin::Symbol-->
                                 <span class="text-danger">
                             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"
@@ -149,7 +149,7 @@
                                 <div class="m-0">
                                     <!--begin::Number-->
                                     <span
-                                        class="text-danger-emphasis d-block  lh-1 ls-n1 mb-1 display-3">{{number_format($underMaintenance) }}</span>
+                                        class="text-danger-emphasis d-block  lh-1 ls-n1 mb-1  display-5 my-4">{{number_format($underMaintenance) }}</span>
                                     <!--end::Number-->
 
                                     <!--begin::Desc-->

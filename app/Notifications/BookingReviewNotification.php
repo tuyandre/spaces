@@ -31,7 +31,7 @@ class BookingReviewNotification extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['mail','database'];
     }
 
     /**
@@ -48,7 +48,7 @@ class BookingReviewNotification extends Notification implements ShouldQueue
             $line2 = "Your booking has been approved for $startDateTime to $endDateTime.";
             $line3 = "Thank you for choosing our services.";
             $line4 = "Please contact us if you have any questions or concerns.";
-        }else{
+        } else {
             $subject = "Booking Review: Your booking has been declined";
             $startDateTime = $this->booking->start_date->format('l, F jS Y \a\t g:i A');
             $endDateTime = $this->booking->end_date->format('l, F jS Y \a\t g:i A');
@@ -75,7 +75,9 @@ class BookingReviewNotification extends Notification implements ShouldQueue
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'booking_id' => $this->booking->id,
+            'message' => 'Your booking has been reviewed!',
+            'booking_details' => $this->booking->toArray(),
         ];
     }
 }

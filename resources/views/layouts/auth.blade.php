@@ -63,6 +63,13 @@
     <div class="d-flex flex-column flex-lg-row-fluid py-10">
         <!--begin::Content-->
         <div class="d-flex flex-center flex-column flex-column-fluid">
+            @if(session()->has('status'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <div class="alert-icon"><i class="fa fa-check-circle"></i></div>
+                    <div class="alert-text">{{ session('status') }}</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
             <!--begin::Wrapper-->
             @yield('content')
             <!--end::Wrapper-->

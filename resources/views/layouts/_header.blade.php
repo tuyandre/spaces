@@ -6,10 +6,12 @@
             <div class="btn btn-icon btn-active-color-primary w-35px h-35px ms-3 me-2 d-flex d-lg-none"
                  id="kt_app_sidebar_mobile_toggle">
                 <i class="ki-duotone ki-abstract-14 fs-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#000000" fill="none">
-                        <path d="M7 5L17 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M4 12L20 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M7 19L17 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="icon icon-tabler icons-tabler-outline icon-tabler-square-chevron-left">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M13 15l-3 -3l3 -3"/>
+                        <path d="M3 3m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"/>
                     </svg>
                 </i>
             </div>
@@ -28,10 +30,12 @@
                  data-kt-toggle="true" data-kt-toggle-state="active" data-kt-toggle-target="body"
                  data-kt-toggle-name="app-sidebar-minimize">
                 <i class="ki-duotone ki-exit-left fs-2x rotate-180">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#000000" fill="none">
-                        <path d="M7 5L17 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M4 12L20 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M7 19L17 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="icon icon-tabler icons-tabler-outline icon-tabler-square-chevron-left">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M13 15l-3 -3l3 -3"/>
+                        <path d="M3 3m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"/>
                     </svg>
                 </i>
             </div>
@@ -39,64 +43,15 @@
         </div>
         <!--begin::Navbar-->
         <div class="app-navbar flex-grow-1 justify-content-end" id="kt_app_header_navbar">
-            <div class="app-navbar-item d-flex align-items-stretch flex-lg-grow-1 me-2 me-lg-0">
-                <!--begin::Search-->
-                <div id="kt_header_search" class="header-search d-flex align-items-center w-lg-350px"
-                     data-kt-search-keypress="true" data-kt-search-min-length="2" data-kt-search-enter="enter"
-                     data-kt-search-layout="menu" data-kt-search-responsive="true" data-kt-menu-trigger="auto"
-                     data-kt-menu-permanent="true" data-kt-menu-placement="bottom-start">
-                    <!--begin::Tablet and mobile search toggle-->
-                    <div data-kt-search-element="toggle"
-                         class="search-toggle-mobile d-flex d-lg-none align-items-center">
-                        <div class="d-flex">
-                            <i class="ki-duotone ki-magnifier fs-1 fs-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
-                                     width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                                     fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"/>
-                                    <path d="M21 21l-6 -6"/>
-                                </svg>
-                            </i>
-                        </div>
-                    </div>
-                    <!--end::Tablet and mobile search toggle-->
-                    <!--begin::Form(use d-none d-lg-block classes for responsive search)-->
-                    <form data-kt-search-element="form"
-                          class="d-none d-lg-block w-100 position-relative mb-5 mb-lg-0" autocomplete="off">
-                        <!--begin::Hidden input(Added to disable form autocomplete)-->
-                        <input type="hidden"/>
-                        <!--end::Hidden input-->
-                        <!--begin::Icon-->
-                        <i class="ki-duotone ki-magnifier search-icon fs-2 text-gray-500 position-absolute top-50 translate-middle-y ms-5">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search"
-                                 width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"/>
-                                <path d="M21 21l-6 -6"/>
-                            </svg>
-                        </i>
-                        <!--end::Icon-->
-                        <!--begin::Input-->
-                        <input type="text"
-                               class="search-input form-control form-control border-0 h-lg-40px ps-13"
-                               name="search" value="" placeholder="Search..." data-kt-search-element="input"/>
-                        <!--end::Input-->
-                        <!--begin::Spinner-->
-                        <span
-                            class="search-spinner position-absolute top-50 end-0 translate-middle-y lh-0 d-none me-5"
-                            data-kt-search-element="spinner">
-											<span
-                                                class="spinner-border h-15px w-15px align-middle text-gray-400"></span>
-										</span>
-                        <!--end::Spinner-->
-
-                    </form>
-                    <!--end::Form-->
-
-                </div>
-                <!--end::Search-->
+            <div class="app-navbar-item d-none d-lg-flex align-items-stretch flex-lg-grow-1 me-2 me-lg-0">
+             <div>
+                 <h2 class="fw-bolder">
+                     SMS
+                 </h2>
+                 <p>
+                     Space Management System
+                 </p>
+             </div>
             </div>
 
 
@@ -299,6 +254,6 @@
     </div>
     <!--end::Header main-->
     <!--begin::Separator-->
-{{--    <div class="app-header-separator"></div>--}}
+    {{--    <div class="app-header-separator"></div>--}}
     <!--end::Separator-->
 </div>

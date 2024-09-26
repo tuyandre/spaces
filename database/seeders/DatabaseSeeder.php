@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             OccupancySeeder::class,
             BuildingTypeSeeder::class,
             MaintenanceTypeSeeder::class,
-            PermissionTableSeeder::class
+            PermissionTableSeeder::class,
+            PaymentMethodSeeder::class
         ]);
     }
 }

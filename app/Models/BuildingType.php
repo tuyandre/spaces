@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property string $name
@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|BuildingType whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BuildingType whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BuildingType whereUpdatedAt($value)
+ * @method static \Database\Factories\BuildingTypeFactory factory($count = null, $state = [])
  * @mixin \Eloquent
  */
 class BuildingType extends Model

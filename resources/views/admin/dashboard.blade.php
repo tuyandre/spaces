@@ -47,13 +47,13 @@
         <div class="my-3">
             <livewire:dashboard.room-statistics/>
             <div class="row">
-                <div class="col-lg-6 mb-4">
-                    <div class="card card-body">
+                <div class="col-xl-6 mb-4">
+                    <div class="card card-body tw-border-zinc-300">
                         <div id="roomUtilizationChart"></div>
                     </div>
                 </div>
-                <div class="col-lg-6 mb-4">
-                    <div class="card card-body">
+                <div class="col-xl-6 mb-4">
+                    <div class="card card-body tw-border-zinc-300">
                         <div id="peakUsageChart"></div>
                     </div>
                 </div>
@@ -77,7 +77,7 @@
             </div>
             <div class="row">
                 <!-- Room Status Overview -->
-                <div class="col-lg-6 mb-4">
+                <div class="col-xl-6 mb-4">
                     <div class="card border tw-border-zinc-300">
                         <div class="card-body">
                             <h4>
@@ -91,7 +91,7 @@
                     </div>
                 </div>
                 <!-- Upcoming Maintenance -->
-                <div class="col-lg-6 mb-4">
+                <div class="col-xl-6 mb-4">
                     <div class="card border tw-border-zinc-300 h-100">
                         <div class="card-body">
                             <h4>
@@ -123,7 +123,7 @@
                         let hoursBooked = [];
 
                         data.forEach(room => {
-                            roomNames.push( room.room_number); // Customize room label
+                            roomNames.push(room.room_number); // Customize room label
                             hoursBooked.push(room.total_hours_booked);
                         });
                         renderRoomUtilizationChart(roomNames, hoursBooked);
@@ -140,6 +140,18 @@
                         name: 'Total Hours Booked',
                         data: hoursBooked
                     }],
+                    colors: ['#023B6D'],
+                    plotOptions: {
+                        bar: {
+                            borderRadius: 4,
+                            borderRadiusApplication: 'end',
+                            horizontal: true,
+                            width: '20%',
+                        }
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
                     xaxis: {
                         categories: roomNames
                     },
@@ -191,8 +203,16 @@
                             autoSelected: 'zoom'
                         }
                     },
+                    markers: {
+                        size: 0,
+                        style: 'hollow',
+                    },
                     dataLabels: {
                         enabled: false
+                    },
+                    stroke: {
+                        width: 5,
+                        curve: 'smooth'
                     },
                     series: [{
                         name: 'Bookings',
