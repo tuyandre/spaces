@@ -26,7 +26,6 @@
             <!--end:Menu item-->
 
 
-
             <!--end:Menu item-->
             <div data-kt-menu-trigger="click"
                  class="menu-item menu-accordion {{ Str::of(request()->url())->contains('/admin/bookings')?'show':'' }}">
@@ -230,7 +229,7 @@
                 </div>
             @endcanany
             <!--begin:Menu item-->
-            <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+            <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ Str::of(request()->url())->contains('/admin/reports')?'show':'' }}">
                 <!--begin:Menu link-->
                 <span class="menu-link">
 										<span class="menu-icon">
@@ -248,21 +247,33 @@
                     <!--begin:Menu item-->
                     <div class="menu-item">
                         <!--begin:Menu link-->
-                        <a class="menu-link" href="">
+                        <a class="menu-link {{ request()->url()==route('admin.reports.room-utilization')?'active':'' }}"
+                           href="{{ route("admin.reports.room-utilization") }}">
                             <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
                             <span class="menu-title">
-                                Applications
+                                Room Utilization
                             </span>
                         </a>
                         <!--end:Menu link-->
                         <!--begin:Menu link-->
-                        <a class="menu-link" href="">
+                        <a class="menu-link {{ request()->url()==route('admin.reports.peak-usage-times')?'active':'' }}"
+                           href="{{ route("admin.reports.peak-usage-times") }}">
                             <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
                             <span class="menu-title">
-                                Payments
+                                Peak Usage Times
                             </span>
                         </a>
                         <!--end:Menu link-->
+                        <!--begin:Menu link-->
+                        <a class="menu-link {{ request()->url()==route('admin.reports.popular-rooms')?'active':'' }}"
+                           href="{{ route("admin.reports.popular-rooms") }}">
+                            <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                            <span class="menu-title">
+                               Popular Rooms
+                            </span>
+                        </a>
+                        <!--end:Menu link-->
+
                     </div>
                     <!--end:Menu item-->
                 </div>

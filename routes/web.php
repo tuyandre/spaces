@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RoomReportsController;
 use App\Http\Middleware\PasswordChanged;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -73,6 +74,12 @@ Route::group(['middleware' => ['auth', PasswordChanged::class], 'prefix' => '/ad
     });
 
     Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
+
+    Route::prefix('reports')->group(function () {
+        Route::get('/room-utilization', [RoomReportsController::class, 'roomUtilizationReport'])->name('reports.room-utilization');
+        Route::get('/peak-usage-times', [RoomReportsController::class, 'peakUsageTimes'])->name('reports.peak-usage-times');
+        Route::get('/popular-rooms', [RoomReportsController::class, 'popularRooms'])->name('reports.popular-rooms');
+    });
 
 
 });

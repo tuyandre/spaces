@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title> @yield('title') {{ config('app.name', 'Laravel') }}</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700"/>
     <!--end::Fonts-->
     <!-- Scripts -->
@@ -41,7 +41,7 @@
     <div class="d-flex flex-column flex-lg-row-auto bg-primary w-xl-600px positon-xl-relative">
         <div class="d-flex flex-row-fluid flex-column text-center p-5 p-lg-10 pt-lg-20">
             <!--begin::Logo-->
-            <a href="" class="py-2 py-lg-20">
+            <a href="{{ route('admin.dashboard') }}" class="py-2 py-lg-20">
                 <img alt="Logo" src="{{ asset('assets/media/logos/logo.png') }}" class="h-40px h-lg-50px">
             </a>
             <!--end::Logo-->

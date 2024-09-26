@@ -47,6 +47,18 @@
         <div class="my-3">
             <livewire:dashboard.room-statistics/>
             <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="card card-body">
+                        <div id="roomUtilizationChart"></div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card card-body">
+                        <div id="peakUsageChart"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <!-- Recent Booking -->
                 <div class="col-lg-12 mb-4">
                     <div class="card border tw-border-zinc-300">
@@ -96,5 +108,120 @@
 @endsection
 
 @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchRoomUtilizationData();
 
+            function fetchRoomUtilizationData() {
+
+                $.ajax({
+                    url: '{{ route('admin.reports.room-utilization') }}',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        let roomNames = [];
+                        let hoursBooked = [];
+
+                        data.forEach(room => {
+                            roomNames.push( room.room_number); // Customize room label
+                            hoursBooked.push(room.total_hours_booked);
+                        });
+                        renderRoomUtilizationChart(roomNames, hoursBooked);
+                    }
+                });
+            }
+
+            function renderRoomUtilizationChart(roomNames, hoursBooked) {
+                const options = {
+                    chart: {
+                        type: 'bar'
+                    },
+                    series: [{
+                        name: 'Total Hours Booked',
+                        data: hoursBooked
+                    }],
+                    xaxis: {
+                        categories: roomNames
+                    },
+                    title: {
+                        text: 'Room Utilization (Total Hours Booked)',
+                        align: 'left'
+                    }
+                };
+
+                const chart = new ApexCharts(document.querySelector("#roomUtilizationChart"), options);
+                chart.render();
+            }
+
+            fetchPeakUsageTimesData();
+
+            function fetchPeakUsageTimesData() {
+                $.ajax({
+                    url: '{{ route('admin.reports.peak-usage-times') }}',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        let hoursOfDay = [];
+                        let bookingCounts = [];
+
+                        data.forEach(booking => {
+                            hoursOfDay.push(booking.hour_of_day + ':00'); // Format hour for display
+                            bookingCounts.push(booking.booking_count);
+                        });
+
+                        renderPeakUsageTimesChart(hoursOfDay, bookingCounts);
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error);
+                    }
+                })
+            }
+
+            function renderPeakUsageTimesChart(hoursOfDay, bookingCounts) {
+                const options = {
+                    chart: {
+                        type: 'area',
+                        stacked: false,
+                        zoom: {
+                            type: 'x',
+                            enabled: true,
+                            autoScaleYaxis: true
+                        },
+                        toolbar: {
+                            autoSelected: 'zoom'
+                        }
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    series: [{
+                        name: 'Bookings',
+                        data: bookingCounts
+                    }],
+                    xaxis: {
+                        categories: hoursOfDay,
+                        type: 'time',
+                    },
+                    title: {
+                        text: 'Peak Room Usage Times (By Hour of Day)',
+                        align: 'left'
+                    },
+                    fill: {
+                        type: 'gradient',
+                        gradient: {
+                            shadeIntensity: 1,
+                            inverseColors: false,
+                            opacityFrom: 0.5,
+                            opacityTo: 0,
+                            stops: [0, 90, 100]
+                        },
+                    },
+                };
+
+                const chart = new ApexCharts(document.querySelector("#peakUsageChart"), options);
+                chart.render();
+            }
+
+        });
+    </script>
 @endpush

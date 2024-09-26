@@ -1,5 +1,5 @@
 @extends('layouts.auth')
-
+@section('title', 'Login')
 @section('content')
 
     <div class=" p-10 p-lg-15 mx-auto">
@@ -22,7 +22,7 @@
                 <label class="form-label fs-6 fw-bold text-dark">Email</label>
                 <!--end::Label-->
                 <!--begin::Input-->
-                <input id="email" type="email" class="form-control form-control-lg @error('email') is-invalid @enderror"
+                <input id="email" type="email" class="form-control tw-border-zinc-200 focus:tw-border-zinc-300  form-control-lg @error('email') is-invalid @enderror " placeholder="example@domain.com"
                        name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                 @error('email')
                 <span class="invalid-feedback" role="alert">
@@ -42,8 +42,8 @@
                 </div>
                 <!--end::Wrapper-->
                 <!--begin::Input-->
-                <input class="form-control form-control-lg @error('password') is-invalid @enderror" type="password" name="password"
-                       autocomplete="off">
+                <input class="form-control form-control-lg tw-border-zinc-200 focus:tw-border-zinc-300 @error('password') is-invalid @enderror" type="password" name="password"
+                       placeholder="Password" autocomplete="off">
                 @error('password')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
