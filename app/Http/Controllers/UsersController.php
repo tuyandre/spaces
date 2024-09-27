@@ -36,7 +36,7 @@ class UsersController extends Controller
                     // delete button
                     $deleteBtn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $user->id . '" data-original-title="Delete" class="dropdown-item js-delete">Delete</a>';
                     // edit button
-                    $editBtn = '<a href="' . route("admin.settings.users.show", $user->id) . '" data-toggle="tooltip"  data-id="' . $user->id . '" data-original-title="Edit" class="dropdown-item js-edit">Edit</a>';
+                    $editBtn = '<a href="' . route("admin.system.users.show", $user->id) . '" data-toggle="tooltip"  data-id="' . $user->id . '" data-original-title="Edit" class="dropdown-item js-edit">Edit</a>';
                     // roles button
                     $rolesBtn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $user->id . '" data-original-title="Roles" class="dropdown-item rolesUser">Roles</a>';
                     return "<div class='drop-down dropdown-action'>

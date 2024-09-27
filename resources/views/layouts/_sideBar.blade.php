@@ -179,7 +179,7 @@
                 </div>
             @endcanany
 
-            @canany([\App\Constants\Permission::MANAGE_ROLES,\App\Constants\Permission::VIEW_PERMISSIONS,\App\Constants\Permission::MANAGE_USERS])
+            @canany([\App\Constants\Permission::ManageServices])
                 <div data-kt-menu-trigger="click"
                      class="menu-item menu-accordion {{ Str::of(request()->url())->contains('/admin/settings')?'show':'' }}">
                     <!--begin:Menu link-->
@@ -188,7 +188,37 @@
                             <i class="bi bi-gear fs-1"></i>
                         </span>
                         <span class="menu-title">
-                            System Settings
+                           System Settings
+                        </span>
+                    <span class="menu-arrow"></span>
+                </span>
+                    <!--end:Menu link-->
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+
+                            <a class="menu-link {{ request()->url()==route('admin.settings.services.index')?'active':'' }}"
+                               href="{{ route('admin.settings.services.index') }}">
+                                <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                                <span class="menu-title">Services</span>
+                            </a>
+                        <!--end:Menu link-->
+
+                    </div>
+                    <!--end:Menu item-->
+                </div>
+            @endcanany
+
+
+            @canany([\App\Constants\Permission::MANAGE_ROLES,\App\Constants\Permission::VIEW_PERMISSIONS,\App\Constants\Permission::MANAGE_USERS])
+                <div data-kt-menu-trigger="click"
+                     class="menu-item menu-accordion {{ Str::of(request()->url())->contains('/admin/system')?'show':'' }}">
+                    <!--begin:Menu link-->
+                    <span class="menu-link">
+                        <span class="menu-icon">
+                            <i class="bi bi-people fs-1"></i>
+                        </span>
+                        <span class="menu-title">
+                            User Management
                         </span>
                     <span class="menu-arrow"></span>
                 </span>
@@ -199,8 +229,8 @@
                         <!--begin:Menu item-->
                         <!--begin:Menu link-->
                         @can(\App\Constants\Permission::MANAGE_USERS)
-                            <a class="menu-link {{ request()->url()==route('admin.settings.users.index')?'active':'' }}"
-                               href="{{ route('admin.settings.users.index') }}">
+                            <a class="menu-link {{ request()->url()==route('admin.system.users.index')?'active':'' }}"
+                               href="{{ route('admin.system.users.index') }}">
                                 <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
                                 <span class="menu-title">Users</span>
                             </a>
@@ -208,8 +238,8 @@
                         <!--end:Menu link-->
                         <!--begin:Menu link-->
                         @can(\App\Constants\Permission::MANAGE_ROLES)
-                            <a class="menu-link  {{ request()->url()==route('admin.settings.roles.index')?'active':'' }}"
-                               href="{{ route('admin.settings.roles.index') }}">
+                            <a class="menu-link  {{ request()->url()==route('admin.system.roles.index')?'active':'' }}"
+                               href="{{ route('admin.system.roles.index') }}">
                                 <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
                                 <span class="menu-title">Roles</span>
                             </a>
@@ -218,9 +248,9 @@
 
                         @can(\App\Constants\Permission::VIEW_PERMISSIONS)
                             <!--begin:Menu link-->
-                            <a class="menu-link {{ request()->url()==route('admin.settings.permissions.index')?'active':'' }}"
+                            <a class="menu-link {{ request()->url()==route('admin.system.permissions.index')?'active':'' }}"
 
-                               href="{{ route('admin.settings.permissions.index') }}">
+                               href="{{ route('admin.system.permissions.index') }}">
                                 <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
                                 <span class="menu-title">Permissions</span>
                             </a>

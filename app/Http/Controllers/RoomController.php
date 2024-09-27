@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Building;
 use App\Models\Room;
 use App\Models\RoomType;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Exceptions\Exception;
@@ -31,9 +32,12 @@ class RoomController extends Controller
         $roomTypes = RoomType::all();
         $buildings = Building::all();
 
+        $services = Service::query()->latest()->get();
+
         return view('rooms.index', [
             'roomTypes' => $roomTypes,
-            'buildings' => $buildings
+            'buildings' => $buildings,
+            'services' => $services
         ]);
     }
 
@@ -76,6 +80,8 @@ class RoomController extends Controller
             'status' => ['required', 'string'],
             'images' => ['nullable', 'array'], // Ensures images is an array
             'images.*' => ['mimes:jpeg,jpg,png,gif', 'max:2048'], // Validates each image
+            'services' => ['nullable', 'array'], // Ensures services is an array
+            'services.*' => ['exists:services,id'] // Validates each service id
         ]);
 
         DB::beginTransaction();
@@ -83,8 +89,13 @@ class RoomController extends Controller
         try {
             // Create or update the Room record
             unset($data['images']); // Remove images from the data array
+            $services = $data['services'] ?? []; // Get the services array
+            unset($data['services']); // Remove services from the data array
             $model = Room::query()->updateOrCreate(['id' => $data['id']], $data);
-
+            // Attach services
+            if ($request->has('services')) {
+                $model->services()->sync($services);
+            }
             // Handle image uploads
             if ($request->hasFile('images')) {
                 // remove existing images
@@ -155,7 +166,7 @@ class RoomController extends Controller
         $guests = $data['guests'];
         // find rooms with the given type and capacity
         $rooms = Room::query()
-            ->where('room_type_id','=', $type)
+            ->where('room_type_id', '=', $type)
             ->where('capacity', '>=', $guests)
             ->get();
         return response()->json($rooms);

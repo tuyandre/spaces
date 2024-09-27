@@ -1,5 +1,6 @@
 @extends('layouts.master')
-@section('title', 'Roles')
+@section('title',"Services")
+
 @section('content')
     <div>
         <!--begin::Toolbar-->
@@ -18,7 +19,7 @@
                         <!--end::Item-->
                         <!--begin::Item-->
                         <li class="breadcrumb-item text-gray-700 fw-bold lh-1">
-                            Roles
+                            Services
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
@@ -28,14 +29,14 @@
                         <!--end::Item-->
                         <!--begin::Item-->
                         <li class="breadcrumb-item text-gray-700">
-                            Manage Roles
+                            Manage Services
                         </li>
                         <!--end::Item-->
                     </ul>
                     <!--end::Breadcrumb-->
                     <!--begin::Title-->
                     <h1 class="page-heading d-flex flex-column justify-content-center text-dark fw-bolder fs-1 lh-0">
-                        Roles
+                        Services
                     </h1>
                     <!--end::Title-->
                 </div>
@@ -55,8 +56,8 @@
                 <table class="table ps-2 align-middle border rounded table-row-dashed fs-6 g-5" id="myTable">
                     <thead>
                     <tr class="text-start text-gray-800 fw-bold fs-7 text-uppercase">
+                        <th>Created At</th>
                         <th>Name</th>
-                        <th>Permissions</th>
                         <th>Options</th>
                     </tr>
                     </thead>
@@ -72,7 +73,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title">
-                        Role
+                        Service
                     </h3>
 
                     <!--begin::Close-->
@@ -83,7 +84,7 @@
                     <!--end::Close-->
                 </div>
 
-                <form action="{{ route('admin.system.roles.store') }}" id="submitForm" method="post">
+                <form action="{{ route('admin.settings.services.store') }}" id="submitForm" method="post">
                     @csrf
                     <input type="hidden" id="id" name="id" value="0"/>
                     <div class="modal-body">
@@ -91,26 +92,10 @@
                             <label for="name" class="form-label">Name</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder=""/>
                         </div>
-                        <h6>
-                            Permissions
-                        </h6>
-
-                        <div class="row">
-                            @foreach($permissions as $permission)
-                                <div class="col-md-6">
-                                    <div class="form-check my-2">
-                                        <input class="form-check-input" type="checkbox" value="{{ $permission->id }}"
-                                               name="permissions[]"
-                                               id="permission_{{ $permission->id }}">
-                                        <label class="form-check-label" for="permission_{{ $permission->id }}">
-                                            {{ $permission->name }}
-                                        </label>
-                                    </div>
-                                </div>
-                            @endforeach
+                        <div class="mb-3">
+                            <label for="fee" class="form-label">Fee</label>
+                            <input type="text" class="form-control" id="fee" name="fee" placeholder=""/>
                         </div>
-
-
                     </div>
 
                     <div class="modal-footer bg-light">
@@ -138,8 +123,13 @@
                     processing: '<div class="spinner spinner-primary spinner-lg mr-15"></div> Processing...'
                 },
                 columns: [
+                    {
+                        data: 'created_at', name: 'created_at',
+                        render: function (data, type, row) {
+                            return moment(data).format('DD/MM/YYYY HH:mm');
+                        }
+                    },
                     {data: 'name', name: 'name'},
-                    {data: 'permissions', name: 'permissions', orderable: false, searchable: false},
                     {data: 'action', name: 'action', orderable: false, searchable: false, className: 'text-center'},
                 ],
             });

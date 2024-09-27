@@ -5,21 +5,25 @@ namespace App\Models;
 use App\Constants\Status;
 use App\Traits\HasEncodedId;
 use App\Traits\HasStatusColor;
+use Database\Factories\RoomFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use OwenIt\Auditing\Contracts\Auditable;
+use OwenIt\Auditing\Models\Audit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $name
@@ -51,16 +55,16 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @method static Builder|Room whereRoomTypeId($value)
  * @method static Builder|Room whereStatus($value)
  * @method static Builder|Room whereUpdatedAt($value)
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
+ * @property-read Collection<int, Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookings
+ * @property-read Collection<int, Booking> $bookings
  * @property-read int|null $bookings_count
  * @property-read string $details_url
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\RoomInventory> $inventoryItems
+ * @property-read Collection<int, RoomInventory> $inventoryItems
  * @property-read int|null $inventory_items_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\RoomMaintenance> $maintenances
+ * @property-read Collection<int, RoomMaintenance> $maintenances
  * @property-read int|null $maintenances_count
- * @method static \Database\Factories\RoomFactory factory($count = null, $state = [])
+ * @method static RoomFactory factory($count = null, $state = [])
  * @mixin Eloquent
  */
 class Room extends Model implements HasMedia, Auditable
@@ -145,5 +149,10 @@ class Room extends Model implements HasMedia, Auditable
     public function inventoryItems(): HasMany
     {
         return $this->hasMany(RoomInventory::class);
+    }
+
+    public function services(): BelongsToMany
+    {
+        return $this->belongsToMany(Service::class, 'room_service');
     }
 }

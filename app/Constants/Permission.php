@@ -15,6 +15,7 @@ class Permission
     public const MANAGE_MAINTENANCE = 'manage_maintenance';
     const CancelBooking = "cancel_booking";
     const ReviewBooking = "review_booking";
+    const ManageServices = "manage_services";
 
     public static function all(): array
     {
@@ -29,7 +30,8 @@ class Permission
             self::MANAGE_BUILDING_TYPES,
             self::MANAGE_ROLES,
             self::CancelBooking,
-            self::ReviewBooking
+            self::ReviewBooking,
+            self::ManageServices
         ];
     }
 

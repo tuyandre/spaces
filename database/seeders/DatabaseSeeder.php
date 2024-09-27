@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             BuildingTypeSeeder::class,
             MaintenanceTypeSeeder::class,
             PermissionTableSeeder::class,
-            PaymentMethodSeeder::class
+            PaymentMethodSeeder::class,
+            ServiceSeeder::class,
         ]);
     }
 }

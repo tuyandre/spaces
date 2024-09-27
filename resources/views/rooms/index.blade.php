@@ -78,12 +78,17 @@
 
 
     <div class="modal fade" tabindex="-1" id="myModal">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dial  modal-fullscreen">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">
-                        Room
-                    </h3>
+                <div class="modal-header bg-light">
+                    <div>
+                        <h3 class="modal-title">
+                            Room
+                        </h3>
+                        <p class="mb-0">
+                            Please fill the form below to add a new room.
+                        </p>
+                    </div>
 
                     <!--begin::Close-->
                     <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
@@ -93,92 +98,121 @@
                     <!--end::Close-->
                 </div>
 
-                <form action="{{ route('admin.rooms.store') }}" id="submitForm" method="post"
+                <form action="{{ route('admin.rooms.store') }}" id="submitForm" method="post" class=""
                       enctype="multipart/form-data">
-                    @csrf
-                    <input type="hidden" id="id" name="id" value="0"/>
                     <div class="modal-body">
-
+                        @csrf
+                        <input type="hidden" id="id" name="id" value="0"/>
                         <div class="row">
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" placeholder=""/>
-                                </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">Name</label>
+                                            <input type="text" class="form-control" id="name" name="name"
+                                                   placeholder=""/>
+                                        </div>
 
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="room_type_id" class="form-label">Type</label>
+                                            <select class="form-select" id="room_type_id" name="room_type_id">
+                                                <option value="">Select Type</option>
+                                                @foreach($roomTypes as $type)
+                                                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="building_id" class="form-label">Building</label>
+                                            <select class="form-select" id="building_id" name="building_id">
+                                                <option value="">Select Type</option>
+                                                @foreach($buildings as $type)
+                                                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="floor" class="form-label">Floor</label>
+                                            <input type="number" class="form-control" id="floor" name="floor"
+                                                   placeholder=""/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="room_number" class="form-label">Room Number</label>
+                                            <input type="text" class="form-control" id="room_number" name="room_number"
+                                                   placeholder=""/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="capacity" class="form-label">Capacity</label>
+                                            <input type="number" class="form-control" id="capacity" name="capacity"
+                                                   placeholder=""/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="status" class="form-label">Status</label>
+                                            <select class="form-select" id="status" name="status">
+                                                <option value="">Select Status</option>
+                                                @foreach(\App\Constants\Status::roomStatuses() as $tem)
+                                                    <option value="{{ $tem }}">{{ $tem }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="images" class="form-label">Images</label>
+                                            <input type="file" class="form-control" id="images" multiple
+                                                   accept="image/*"
+                                                   name="images[]"
+                                                   placeholder=""/>
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label for="room_type_id" class="form-label">Type</label>
-                                    <select class="form-select" id="room_type_id" name="room_type_id">
-                                        <option value="">Select Type</option>
-                                        @foreach($roomTypes as $type)
-                                            <option value="{{ $type->id }}">{{ $type->name }}</option>
+                            <div class="col-md-6">
+                                <div>
+                                    <label for="services[]" class="form-label">Services</label>
+                                    <div class="row">
+                                        @foreach($services as $item)
+                                            <div class="mb-3 col-md-6 col-lg-4  bg-light-subtle rounded p-2">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input"
+                                                           id="services{{ $item->id }}" name="services[]"
+                                                           value="{{ $item->id }}"/>
+                                                    <label for="services{{ $item->id }}" class="form-label">
+                                                        <span>{{ $item->name }}</span>
+                                                        <span class="text-muted small">
+                                                            ({{$item->fee>0? number_format($item->fee):'Free' }})
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            </div>
                                         @endforeach
-                                    </select>
+                                    </div>
+
                                 </div>
-                            </div>
-                            <div class="col-lg-6">
                                 <div class="mb-3">
-                                    <label for="building_id" class="form-label">Building</label>
-                                    <select class="form-select" id="building_id" name="building_id">
-                                        <option value="">Select Type</option>
-                                        @foreach($buildings as $type)
-                                            <option value="{{ $type->id }}">{{ $type->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label for="floor" class="form-label">Floor</label>
-                                    <input type="number" class="form-control" id="floor" name="floor" placeholder=""/>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label for="room_number" class="form-label">Room Number</label>
-                                    <input type="text" class="form-control" id="room_number" name="room_number"
-                                           placeholder=""/>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label for="capacity" class="form-label">Capacity</label>
-                                    <input type="number" class="form-control" id="capacity" name="capacity"
-                                           placeholder=""/>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label for="status" class="form-label">Status</label>
-                                    <select class="form-select" id="status" name="status">
-                                        <option value="">Select Status</option>
-                                        @foreach(\App\Constants\Status::roomStatuses() as $tem)
-                                            <option value="{{ $tem }}">{{ $tem }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label for="images" class="form-label">Images</label>
-                                    <input type="file" class="form-control" id="images" multiple accept="image/*"
-                                           name="images[]"
-                                           placeholder=""/>
+                                    <label for="description" class="form-label">Description</label>
+                                    <textarea class="form-control" id="description" name="description"
+                                              placeholder=""></textarea>
                                 </div>
                             </div>
                         </div>
 
 
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control" id="description" name="description"
-                                      placeholder=""></textarea>
-                        </div>
                     </div>
-
-                    <div class="modal-footer bg-light">
+                    <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Save changes</button>
                         <button type="button" class="btn bg-secondary text-light-emphasis" data-bs-dismiss="modal">
                             Close

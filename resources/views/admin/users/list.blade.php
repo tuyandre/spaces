@@ -85,7 +85,7 @@
                     <!--end::Close-->
                 </div>
 
-                <form action="{{ route('admin.settings.users.store') }}" id="submitForm" method="post">
+                <form action="{{ route('admin.system.users.store') }}" id="submitForm" method="post">
                     @csrf
                     <input type="hidden" id="id" name="id" value="0"/>
                     <div class="modal-body">
@@ -236,7 +236,7 @@
             $(document).on('click', '.js-edit', function (e) {
                 e.preventDefault();
                 let id = $(this).data('id');
-                let url = '{{ route('admin.settings.users.show', ':id') }}';
+                let url = '{{ route('admin.system.users.show', ':id') }}';
                 url = url.replace(':id', id);
                 $.ajax({
                     url: url,

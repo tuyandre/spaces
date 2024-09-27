@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\RoomReportsController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Middleware\PasswordChanged;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -23,8 +24,17 @@ Route::group(['middleware' => ['auth', PasswordChanged::class], 'prefix' => '/ad
     Route::post('/bookings/{booking}/checkout', [App\Http\Controllers\BookingController::class, 'checkout'])->name('bookings.checkout');
     Route::delete('/bookings/{booking}/destroy', [App\Http\Controllers\BookingController::class, 'destroy'])->name('bookings.destroy');
 
-    Route::group(["prefix" => "settings", "as" => "settings."], function () {
+    Route::group(['prefix' => "settings", "as" => "settings."], function () {
+        Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+        Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
+        Route::get('/services/{service}', [ServiceController::class, 'show'])->name('services.show');
+        Route::delete('/services/{service}', [ServiceController::class, 'destroy'])->name('services.destroy');
 
+
+    });
+
+
+    Route::group(["prefix" => "system", "as" => "system."], function () {
         Route::get('/roles', [App\Http\Controllers\RolesController::class, 'index'])->name('roles.index');
         Route::post('/roles', [App\Http\Controllers\RolesController::class, 'store'])->name('roles.store');
         Route::get('/roles/{role}', [App\Http\Controllers\RolesController::class, 'show'])->name('roles.show');
