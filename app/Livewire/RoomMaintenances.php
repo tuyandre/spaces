@@ -51,7 +51,6 @@ class RoomMaintenances extends Component
 
     public function render(): Application|Factory|\Illuminate\Contracts\View\View|View
     {
-        info('rendering room maintenances:'.'search:'.$this->search.'sortColumn:'.$this->sortColumn.'sortDirection:'.$this->sortDirection);
         // Retrieve maintenances with search and sort functionality
         $maintenances = $this->room->maintenances()
             ->with('maintenanceType')
