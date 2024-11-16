@@ -33,7 +33,11 @@ class RoomTypeController extends Controller
         $data = $request->validate([
             'id' => ['nullable'], // Used for updateOrCreate
             'name' => ['required', 'string'],
+            'is_vip' => ['nullable'],
+            'max_booking_days'=> ['nullable'],
         ]);
+
+        $data['is_vip'] = $request->input('is_vip') == 'on' ? 1 : 0;
 
         // Create a slug if id is not provided (new building)
         if ($data['id'] == 0) {

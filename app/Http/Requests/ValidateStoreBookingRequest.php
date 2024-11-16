@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Constants\Status;
 use App\Models\Room;
+use App\Models\RoomType;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,8 +25,30 @@ class ValidateStoreBookingRequest extends FormRequest
      */
     public function rules(): array
     {
+        $nowHour = now()->hour;
         return [
-            'room_type_id' => ['required', 'exists:room_types,id'],
+            'room_type_id' => ['required', 'exists:room_types,id',
+                function ($attribute, $value, $fail) {
+                    $roomType = RoomType::where('id', $value)
+//                        ->where('is_vip', true)
+                        ->first();
+
+                    if ($roomType && $roomType->is_vip && auth()->user()->cannot('book_vip_rooms')) {
+                        $fail('VIP rooms cannot be booked directly. Please contact the hotel for assistance.');
+                    }
+                    // get max booking days
+                    $maxBookingDays = $roomType->max_booking_days;
+                    // get check in date time and check out date time
+                    $start_date = $this->input('check_in_date') . ' ' . $this->input('check_in_time') . ':00';
+                    $end_date = $this->input('check_out_date') . ' ' . $this->input('check_out_time') . ':00';
+                    // get the difference between check in and check out date
+                    $diff = strtotime($end_date) - strtotime($start_date);
+                    $days = $diff / (60 * 60 * 24);
+                    if ($days > $maxBookingDays) {
+                        $fail('The maximum booking days for this room type is ' . $maxBookingDays . ' days.');
+                    }
+                }
+            ],
             'guests' => ['required', 'integer', 'min:1'],
             'room_id' => [
                 'required', 'exists:rooms,id',
@@ -40,13 +63,14 @@ class ValidateStoreBookingRequest extends FormRequest
                         $fail('The room is not available for booking due to its current status.');
                         return;
                     }
-
+                    $start_date = $this->input('check_in_date') . ' ' . $this->input('check_in_time') . ':00';
+                    $end_date = $this->input('check_out_date') . ' ' . $this->input('check_out_time') . ':00';
                     // Step 2: Check for overlapping bookings
-                    if ($this->start_date && $this->end_date) {
+                    if ($start_date && $end_date) {
                         $hasOverlappingBookings = $room->bookings()
-                            ->where(function ($query) {
-                                $query->where('start_date', '<=', $this->end_date)
-                                    ->where('end_date', '>=', $this->start_date);
+                            ->where(function ($query) use ($start_date, $end_date) {
+                                $query->where('start_date', '<=', $end_date)
+                                    ->where('end_date', '>=', $start_date);
                             })
                             ->whereIn('status', [Status::Approved, Status::Pending]) // Consider only active bookings
                             ->exists(); // Check if any such booking exists
@@ -57,12 +81,26 @@ class ValidateStoreBookingRequest extends FormRequest
                     }
                 }
             ],
-            'start_date' => ['required', 'date_format:Y-m-d\TH:i', 'after_or_equal:now'],
-            'end_date' => ['required', 'date_format:Y-m-d\TH:i', 'after:start_date'],
+            'check_in_date' => ['required', 'date_format:Y-m-d', 'after_or_equal:today'],
+            'check_out_date' => ['required', 'date_format:Y-m-d', 'after_or_equal:check_in_date'],
+            'check_in_time' => ['required', 'date_format:H', 'after_or_equal:' . $nowHour],
+            'check_out_time' => ['required', 'date_format:H',
+                // validate that check_out_date and check_out_time are after check_in_date and check_in_time
+                function ($attribute, $value, $fail) {
+                    // Combine check-in date and time into one DateTime object
+                    $checkInDateTime = strtotime($this->input('check_in_date') . ' ' . $this->input('check_in_time') . ':00');
+                    // Combine check-out date and time into one DateTime object
+                    $checkOutDateTime = strtotime($this->input('check_out_date') . ' ' . $value . ':00');
+
+                    if ($checkOutDateTime <= $checkInDateTime) {
+                        $fail('The check-out date and time must be after the check-in date and time.');
+                    }
+                }
+            ],
             'is_guest_booking' => ['nullable', 'string'],
-            'guest_name' => ['nullable','required_if:is_guest_booking,on', 'string'],
-            'guest_email' => ['nullable','required_if:is_guest_booking,on', 'email'],
-            'guest_phone' => ['nullable','required_if:is_guest_booking,on', 'string'],
+            'guest_name' => ['nullable', 'required_if:is_guest_booking,on', 'string'],
+            'guest_email' => ['nullable', 'required_if:is_guest_booking,on', 'email'],
+            'guest_phone' => ['nullable', 'required_if:is_guest_booking,on', 'string'],
             'purpose' => ['required', 'string'],
         ];
     }

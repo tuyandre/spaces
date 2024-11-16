@@ -60,6 +60,8 @@
                     <tr class="text-start text-gray-800 fw-bold fs-7 text-uppercase">
                         <th>Created At</th>
                         <th>Name</th>
+                        <th>Max Booking Days</th>
+                        <th>Is VIP</th>
                         <th>Options</th>
                     </tr>
                     </thead>
@@ -95,6 +97,20 @@
                             <label for="name" class="form-label">Name</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder=""/>
                         </div>
+                        <div class="mb-3">
+                            <label for="max_booking_days" class="form-label">
+                                Max Booking Days
+                            </label>
+                            <input type="text" class="form-control" id="max_booking_days" name="max_booking_days" placeholder=""/>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox"  id="is_vip" name="is_vip">
+                                <label class="form-check-label" for="is_vip">
+                                   Is VIP Room
+                                </label>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="modal-footer bg-light">
@@ -126,8 +142,15 @@
                         }
                     },
                     {data: 'name', name: 'name'},
+                    {data: 'max_booking_days', name: 'max_booking_days'},
+                    {data: 'is_vip', name: 'is_vip',
+                        render: function (data) {
+                            return `<span class="badge rounded-pill bg-${data ? 'success' : 'info'}-subtle">${data ? 'Yes' : 'No'}</span>`;
+                        }
+                    },
                     {data: 'action', name: 'action', orderable: false, searchable: false, className: 'text-center'},
                 ],
+                order: [[0, 'desc']]
             });
 
             $('#addBtn').click(function () {
@@ -198,6 +221,8 @@
                         $('#myModal').modal('show');
                         $('#id').val(data.id);
                         $('#name').val(data.name);
+                        $('#max_booking_days').val(data.max_booking_days);
+                        $('#is_vip').prop('checked', data.is_vip);
                     },
                     error: function (xhr) {
                         console.log(xhr);

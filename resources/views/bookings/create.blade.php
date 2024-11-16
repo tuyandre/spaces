@@ -97,20 +97,62 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-6">
-                        <div class="mb-3">
-                            <label for="start_date" class="form-label">Start Date Time</label>
-                            <input type="datetime-local" name="start_date" id="start_date" class="form-control">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label for="check_in_date" class="form-label">
+                                        Check In Date
+                                    </label>
+                                    <input type="date" name="check_in_date" id="check_in_date" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label for="check_in_time" class="form-label">
+                                        Check In Time
+                                    </label>
+                                    <select name="check_in_time" id="check_in_time" class="form-select">
+                                        <option value="">Select Time</option>
+                                        @foreach($times as $time)
+                                            <option value="{{ $time }}">
+                                                {{ $time }}:00
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <div class="mb-3">
-                            <label for="end_date" class="form-label">End Date Time</label>
-                            <input type="datetime-local" name="end_date" id="end_date" class="form-control">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label for="check_out_date" class="form-label ">
+                                        Check Out Date
+                                    </label>
+                                    <input type="date" name="check_out_date" id="check_out_date" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label for="check_out_time" class="form-label ">
+                                        Check Out Time
+                                    </label>
+                                    <select name="check_out_time" id="check_out_time" class="form-select">
+                                        <option value="">Select Time</option>
+                                        @foreach(range(0,23) as $time)
+                                            <option value="{{ $time }}">
+                                                {{ $time }}:00
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-y">
                     <div class="form-check">
                         <input onchange="toggleGuestFields(this)" class="form-check-input" type="checkbox"
                                name="is_guest_booking" id="is_guest_booking">
@@ -119,7 +161,8 @@
                         </label>
                     </div>
                     <div id="is_guest_booking_help_text" class="form-text">
-                        Note that if you are booking a guest, you will need to provide their name, email and phone number.
+                        Note that if you are booking a guest, you will need to provide their name, email and phone
+                        number.
                     </div>
                 </div>
 

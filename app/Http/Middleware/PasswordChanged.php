@@ -17,9 +17,9 @@ class PasswordChanged
     {
 
         if (auth()->check() && auth()->user()->password_changed_at == null) {
-            auth()->logout();
-            return redirect()->route('password.request')
-                ->with('error', 'You need to change your password before logging in.');
+/*            auth()->logout();
+            return redirect()->route('password.')
+                ->with('error', 'You need to change your password before logging in.');*/
         }
 
         return $next($request);

@@ -52,7 +52,13 @@ class BookingController extends Controller
     public function create()
     {
         $roomTypes = RoomType::all();
-        return view('bookings.create', compact('roomTypes'));
+        $nowHour = now()->hour;
+        $times = [];
+
+        for ($i = 0; $i < 24 - $nowHour; $i++) {
+            $times[] = ($nowHour + $i) % 24;
+        }
+        return view('bookings.create', compact('roomTypes', 'times'));
     }
 
     /**
@@ -67,6 +73,11 @@ class BookingController extends Controller
         $data['is_guest_booking'] = isset($data['is_guest_booking']) ? 1 : 0;
         $data['status'] = Status::Pending;
         DB::beginTransaction();
+        // Combine check-in date and time into one date
+
+        $data['start_date'] = $data['check_in_date'] . ' ' . $data['check_in_time'] . ':00:00';
+        $data['end_date'] = $data['check_out_date'] . ' ' . $data['check_out_time'] . ':00:00';
+
         $booking = Booking::query()->create($data);
         $booking->flow()->create([
             'done_by_id' => auth()->id(),
@@ -178,7 +189,7 @@ class BookingController extends Controller
             $user = User::find($booking->user_id);
         }
         $user->notify(new BookingReviewNotification($booking));
-        if ($status = $data['status'] == Status::Approved){
+        if ($status = $data['status'] == Status::Approved) {
             // Generate invoice after booking approval
             $invoiceService = new InvoiceService();
             $invoiceService->createInvoice($booking);
