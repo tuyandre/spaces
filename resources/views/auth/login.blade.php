@@ -64,7 +64,7 @@
             <!--begin::Actions-->
             <div class="text-center">
                 <!--begin::Submit button-->
-                <button type="submit" id="kt_sign_in_submit" class="btn btn-lg btn-primary w-100 mb-5">
+                <button type="submit" id="kt_sign_in_submit" class="btn btn-lg btn-primary w-100 mb-5 tw-bg-gradient-to-r tw-from-primary/5 tw-to-primary">
                     <span class="indicator-label">
                         {{ __('Login') }}
                     </span>

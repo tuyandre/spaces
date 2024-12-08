@@ -11,7 +11,9 @@
 
     <x-fav-icon/>
     @livewireStyles
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
     <!--end::Fonts-->
     @vite(['resources/sass/master.scss', 'resources/js/master.js','resources/css/app.css'])
     @yield('styles')

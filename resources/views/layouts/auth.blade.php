@@ -8,7 +8,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title> @yield('title') {{ config('app.name', 'Laravel') }}</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
     <!--end::Fonts-->
     <!-- Scripts -->
     @vite(['resources/sass/master.scss', 'resources/js/app.js','resources/css/app.css'])
@@ -38,7 +40,7 @@
 
 <div class="d-flex flex-column flex-lg-row flex-column-fluid">
     <!--begin::Aside-->
-    <div class="d-flex flex-column flex-lg-row-auto bg-primary w-xl-600px positon-xl-relative">
+    <div class="d-flex flex-column flex-lg-row-auto  tw-bg-gradient-to-b tw-from-blue-300 tw-to-blue-100 w-xl-600px positon-xl-relative">
         <div class="d-flex flex-row-fluid flex-column text-center p-5 p-lg-10 pt-lg-20">
             <!--begin::Logo-->
             <a href="{{ route('admin.dashboard') }}" class="py-2 py-lg-20">
@@ -46,12 +48,12 @@
             </a>
             <!--end::Logo-->
             <!--begin::Title-->
-            <h1 class="d-none d-lg-block fw-bold text-white fs-2qx pb-5 pb-md-10">
+            <h1 class="d-none d-lg-block fw-bold text-primary-emphasis fs-2qx pb-5 pb-md-10">
                 Welcome
             </h1>
             <!--end::Title-->
             <!--begin::Description-->
-            <p class="d-none d-lg-block fw-semibold fs-2 text-white">
+            <p class="d-none d-lg-block fw-semibold fs-2 text-primary-emphasis">
                 Space Management System <br>
                 Maximize you space , Minimize your worries
             </p>
@@ -80,7 +82,7 @@
             <!--begin::Links-->
             <div class="d-flex flex-center fw-semibold fs-6">
                 <p  class="text-muted text-hover-primary px-2 mb-0" target="_blank">
-                    © 2022 Space Management System. All rights reserved.
+                    © {{ date('Y') }} RICA - All rights reserved
                 </p>
             </div>
             <!--end::Links-->

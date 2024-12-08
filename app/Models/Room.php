@@ -103,17 +103,27 @@ class Room extends Model implements HasMedia, Auditable
     }
 
     // Check if the room is under maintenance
+    // Check if the room is under maintenance using the loaded maintenances
+    public function isUnderMaintenance(): bool
+    {
+        $now = now()->toDateString(); // Current date
+
+        // Since maintenances are already eager loaded, use the collection to filter
+        return $this->maintenances->filter(function ($maintenance) use ($now) {
+            return $maintenance->start_date <= $now
+                && $maintenance->end_date >= $now;
+        })->isNotEmpty();
+    }
+/*
     public function isUnderMaintenance(): bool
     {
         $now = now()->toDateString(); // Current date and time
-
         // Check if there is any active maintenance within the date range for this room
         return $this->maintenances()
             ->whereDate('start_date', '<=', $now) // Maintenance has started
             ->whereDate('end_date', '>=', $now)   // Maintenance has not ended
-//            ->where('status', '!=', Status::Completed) // Maintenance is not marked as completed
             ->exists(); // If such a maintenance record exists, the room is under maintenance
-    }
+    }*/
 
 
     // Room.php
@@ -136,7 +146,6 @@ class Room extends Model implements HasMedia, Auditable
         if ($this->isUnderMaintenance()) {
             return Status::UnderMaintenance;
         }
-
         // Otherwise, use the status from the database
         return $this->attributes['status'];
     }

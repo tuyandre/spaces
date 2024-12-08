@@ -19,9 +19,9 @@
             <!--begin::Logo-->
             <a href="" class="app-sidebar-logo">
                 <img alt="Logo" src="{{ asset('assets/media/logos/logo.png') }}"
-                     class="tw-h-20  tw-border-primary  theme-light-show"/>
+                     class="tw-h-16  tw-border-primary  theme-light-show"/>
                 <img alt="Logo" src="{{ asset('assets/media/logos/logo.png') }}"
-                     class="tw-h-20  tw-border-primary theme-dark-show"/>
+                     class="tw-h-16  tw-border-primary theme-dark-show"/>
             </a>
             <!--end::Logo-->
             <!--begin::Sidebar toggle-->

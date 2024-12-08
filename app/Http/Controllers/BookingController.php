@@ -33,7 +33,7 @@ class BookingController extends Controller
                 ->when(\request('type') != 'all', function (Builder $query) use ($userId) {
                     $query->where('user_id', $userId);
                 })
-                ->with('room.roomType', 'room.building', 'user')
+                ->with('room.roomType', 'room.building', 'user','room.maintenances')
                 ->select('bookings.*');
             return datatables()->eloquent($data)
                 ->addColumn('action', function (Booking $booking) {
