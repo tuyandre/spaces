@@ -26,7 +26,7 @@
             <!--end::Logo-->
             <!--begin::Sidebar toggle-->
             <div id="kt_app_sidebar_toggle"
-                 class="app-sidebar-toggle btn btn-sm btn-icon btn-color-warning me-n2 d-none d-lg-flex"
+                 class="app-sidebar-toggle btn btn-sm btn-icon btn-color-primary me-n2 d-none d-lg-flex"
                  data-kt-toggle="true" data-kt-toggle-state="active" data-kt-toggle-target="body"
                  data-kt-toggle-name="app-sidebar-minimize">
                 <i class="ki-duotone ki-exit-left fs-2x rotate-180">
