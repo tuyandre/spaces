@@ -62,7 +62,9 @@
                             <select name="room_type_id" id="room_type_id" class="form-select">
                                 <option value="">Select Room Type</option>
                                 @foreach($roomTypes as $roomType)
-                                    <option value="{{ $roomType->id }}">{{ $roomType->name }}</option>
+                                    <option
+                                        {{ request('type')==$roomType->id?'selected':'' }}
+                                        value="{{ $roomType->id }}">{{ $roomType->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -72,7 +74,8 @@
                             <label for="guests" class="form-label">
                                 Number of Guests
                             </label>
-                            <input type="number" name="guests" id="guests" class="form-control"/>
+                            <input type="number" name="guests" id="guests" class="form-control"
+                                   value="{{ request('guests') }}"/>
                         </div>
                     </div>
                 </div>
@@ -218,7 +221,7 @@
             guestFields.style.display = checkbox.checked ? 'block' : 'none';
         }
 
-        let fetchRooms = function (roomType, capacity) {
+        let fetchRooms = function (roomType, capacity, selectedRoomId) {
             let url = "{{ route('admin.rooms.all-by-type-capacity') }}" + `?type=${roomType}&guests=${capacity}`;
             let $roomSelect = $('#room_id');
             $roomSelect.empty();
@@ -230,11 +233,22 @@
                     $.each(response, function (index, room) {
                         $roomSelect.append(`<option value="${room.id}" data-details-url="${room.details_url}">${room.name}</option>`);
                     });
+                    if (selectedRoomId) {
+                        $roomSelect.val(selectedRoomId);
+                        $('#room_id').trigger('change');
+                    }
                 }
             });
         };
 
         $(document).ready(function () {
+
+            let roomType = '{{ request('type') }}';
+            let capacity = '{{ request('guests') }}';
+            let selectedRoomId = '{{ request('room_id') }}';
+            if (roomType) {
+                fetchRooms(roomType, capacity, selectedRoomId);
+            }
 
             $('#room_type_id').on('change', function () {
                 let roomType = $(this).val();

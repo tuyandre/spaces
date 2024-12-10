@@ -130,20 +130,26 @@
             $(document).on('click', '.js-cancel', function (e) {
                 e.preventDefault();
                 let url = $(this).attr('href');
+                // reason for cancellation
                 Swal.fire({
                     title: 'Are you sure?',
                     text: "You want to cancel this booking!",
-                    icon: 'warning',
+                    input: 'textarea',
+                    inputPlaceholder: 'Reason for cancellation',
+                    icon: 'question',
                     showCancelButton: true,
                     confirmButtonText: 'Yes, Cancel it!',
                     cancelButtonText: 'No, keep it'
                 }).then((result) => {
-                    if (result.isConfirmed) {
+                    // {isConfirmed: true, isDenied: false, isDismissed: false, value: 'optional on approval'}
+                    let value = result.value;
+                    if (result.isConfirmed && value) {
                         $.ajax({
                             url: url,
                             type: 'POST',
                             data: {
-                                _token: '{{ csrf_token() }}'
+                                _token: '{{ csrf_token() }}',
+                                reason: value
                             },
                             success: function (response) {
                                 Swal.fire(
@@ -153,12 +159,23 @@
                                 );
                                 dt.ajax.reload();
                             },
-                            error: function (xhr, status, error) {
-                                Swal.fire(
-                                    'Error!',
-                                    'An error occurred. Please try again.',
-                                    'error'
-                                );
+                            error: function (xhr) {
+                                if (xhr.status === 422) {
+                                    let errors = xhr.responseJSON.errors;
+                                    $.each(errors, function (key, value) {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Validation Error',
+                                            text: value[0]
+                                        });
+                                    });
+                                } else {
+                                    Swal.fire(
+                                        'Error!',
+                                        'An error occurred. Please try again.',
+                                        'error'
+                                    );
+                                }
                             }
                         });
                     }

@@ -33,7 +33,7 @@ class BookingController extends Controller
                 ->when(\request('type') != 'all', function (Builder $query) use ($userId) {
                     $query->where('user_id', $userId);
                 })
-                ->with('room.roomType', 'room.building', 'user','room.maintenances')
+                ->with('room.roomType', 'room.building', 'user', 'room.maintenances')
                 ->select('bookings.*');
             return datatables()->eloquent($data)
                 ->addColumn('action', function (Booking $booking) {
@@ -127,9 +127,23 @@ class BookingController extends Controller
      */
     public function cancelBooking(Booking $booking)
     {
+        $data = \request()->validate([
+            'reason' => ['required', 'string', 'max:500']
+        ]);
+
         // Update booking status to 'canceled'
+        DB::beginTransaction();
         $booking->status = Status::Cancelled;
         $booking->save();
+
+        // save flow
+        $booking->flow()->create([
+            'done_by_id' => auth()->id(),
+            'description' => $data['reason'],
+            'is_comment' => false,
+            'status' => Status::Cancelled,
+        ]);
+        DB::commit();
 
         if (\request()->ajax()) {
             return response()->json(['message' => 'Booking canceled successfully.']);

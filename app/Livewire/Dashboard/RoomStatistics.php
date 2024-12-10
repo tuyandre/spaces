@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Dashboard;
 
+use App\Constants\Status;
+use App\Models\Booking;
 use App\Models\Building;
 use App\Models\Room;
 use Illuminate\Contracts\View\Factory;
@@ -26,7 +28,7 @@ class RoomStatistics extends Component
             $query->where('start_date', '<=', now())->where('end_date', '>=', now());
         })->count();
 
-        $totalBuildings = Building::query()->count();
-        return view('livewire.dashboard.room-statistics',compact('totalBuildings'));
+        $totalBookings = Booking::query()->where('status','=',Status::Approved)->count();
+        return view('livewire.dashboard.room-statistics',compact('totalBookings'));
     }
 }

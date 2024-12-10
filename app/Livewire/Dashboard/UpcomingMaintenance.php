@@ -16,7 +16,7 @@ class UpcomingMaintenance extends Component
     public $sortColumn = 'start_date';
     public $sortDirection = 'asc';
 
-    public function sortBy($column)
+    public function sortBy($column): void
     {
         $this->sortColumn = $column;
         $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';

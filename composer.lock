@@ -4,8 +4,89 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "62363d2b514131e6c82b82032a708a53",
+    "content-hash": "bcdf73f721f048b64520e53159416adf",
     "packages": [
+        {
+            "name": "blade-ui-kit/blade-icons",
+            "version": "1.7.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/blade-ui-kit/blade-icons.git",
+                "reference": "75a54a3f5a2810fcf6574ab23e91b6cc229a1b53"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/blade-ui-kit/blade-icons/zipball/75a54a3f5a2810fcf6574ab23e91b6cc229a1b53",
+                "reference": "75a54a3f5a2810fcf6574ab23e91b6cc229a1b53",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^8.0|^9.0|^10.0|^11.0",
+                "illuminate/filesystem": "^8.0|^9.0|^10.0|^11.0",
+                "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
+                "illuminate/view": "^8.0|^9.0|^10.0|^11.0",
+                "php": "^7.4|^8.0",
+                "symfony/console": "^5.3|^6.0|^7.0",
+                "symfony/finder": "^5.3|^6.0|^7.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.5.1",
+                "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0",
+                "phpunit/phpunit": "^9.0|^10.5|^11.0"
+            },
+            "bin": [
+                "bin/blade-icons-generate"
+            ],
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "BladeUI\\Icons\\BladeIconsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "BladeUI\\Icons\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dries Vints",
+                    "homepage": "https://driesvints.com"
+                }
+            ],
+            "description": "A package to easily make use of icons in your Laravel Blade views.",
+            "homepage": "https://github.com/blade-ui-kit/blade-icons",
+            "keywords": [
+                "blade",
+                "icons",
+                "laravel",
+                "svg"
+            ],
+            "support": {
+                "issues": "https://github.com/blade-ui-kit/blade-icons/issues",
+                "source": "https://github.com/blade-ui-kit/blade-icons"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/driesvints",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.paypal.com/paypalme/driesvints",
+                    "type": "paypal"
+                }
+            ],
+            "time": "2024-10-17T17:38:00+00:00"
+        },
         {
             "name": "brick/math",
             "version": "0.12.1",
@@ -2409,6 +2490,66 @@
             "time": "2024-10-10T12:33:01+00:00"
         },
         {
+            "name": "mallardduck/blade-lucide-icons",
+            "version": "1.23.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mallardduck/blade-lucide-icons.git",
+                "reference": "19081819bb527e15eed22f6528b9d059c1a8df8b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mallardduck/blade-lucide-icons/zipball/19081819bb527e15eed22f6528b9d059c1a8df8b",
+                "reference": "19081819bb527e15eed22f6528b9d059c1a8df8b",
+                "shasum": ""
+            },
+            "require": {
+                "blade-ui-kit/blade-icons": "^1.6",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "ext-dom": "*",
+                "ext-fileinfo": "*",
+                "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0",
+                "phpunit/phpunit": "^9.0|^10.5|^11.0",
+                "spatie/phpunit-snapshot-assertions": "^4.2.14"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MallardDuck\\LucideIcons\\BladeLucideIconsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MallardDuck\\LucideIcons\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dan Pock"
+                }
+            ],
+            "description": "A package to easily make use of Lucide icons in your Laravel Blade views.",
+            "homepage": "https://github.com/mallardduck/blade-lucide-icons",
+            "keywords": [
+                "LucideIcons",
+                "blade",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/mallardduck/blade-lucide-icons/issues",
+                "source": "https://github.com/mallardduck/blade-lucide-icons/tree/1.23.0"
+            },
+            "time": "2024-07-22T15:40:39+00:00"
+        },
+        {
             "name": "markbaker/complex",
             "version": "3.0.2",
             "source": {
@@ -3200,16 +3341,16 @@
         },
         {
             "name": "phpoffice/phpspreadsheet",
-            "version": "1.29.5",
+            "version": "1.29.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-                "reference": "727cb704d5479fe4ddc291497ee471c4ec08f1b6"
+                "reference": "08597725b84570cd6f32bf0ea92e75a803ef28c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/727cb704d5479fe4ddc291497ee471c4ec08f1b6",
-                "reference": "727cb704d5479fe4ddc291497ee471c4ec08f1b6",
+                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/08597725b84570cd6f32bf0ea92e75a803ef28c2",
+                "reference": "08597725b84570cd6f32bf0ea92e75a803ef28c2",
                 "shasum": ""
             },
             "require": {
@@ -3237,7 +3378,7 @@
             },
             "require-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "dev-main",
-                "dompdf/dompdf": "^1.0 || ^2.0",
+                "dompdf/dompdf": "^1.0 || ^2.0 || ^3.0",
                 "friendsofphp/php-cs-fixer": "^3.2",
                 "mitoteam/jpgraph": "^10.3",
                 "mpdf/mpdf": "^8.1.1",
@@ -3299,9 +3440,9 @@
             ],
             "support": {
                 "issues": "https://github.com/PHPOffice/PhpSpreadsheet/issues",
-                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/1.29.5"
+                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/1.29.6"
             },
-            "time": "2024-11-22T05:57:44+00:00"
+            "time": "2024-12-08T05:49:00+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -3877,16 +4018,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.12.6",
+            "version": "v0.12.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "3b5ea0efaa791cd1c65ecc493aec3e2aa55ff57c"
+                "reference": "d73fa3c74918ef4522bb8a3bf9cab39161c4b57c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/3b5ea0efaa791cd1c65ecc493aec3e2aa55ff57c",
-                "reference": "3b5ea0efaa791cd1c65ecc493aec3e2aa55ff57c",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/d73fa3c74918ef4522bb8a3bf9cab39161c4b57c",
+                "reference": "d73fa3c74918ef4522bb8a3bf9cab39161c4b57c",
                 "shasum": ""
             },
             "require": {
@@ -3950,9 +4091,9 @@
             ],
             "support": {
                 "issues": "https://github.com/bobthecow/psysh/issues",
-                "source": "https://github.com/bobthecow/psysh/tree/v0.12.6"
+                "source": "https://github.com/bobthecow/psysh/tree/v0.12.7"
             },
-            "time": "2024-12-07T20:08:52+00:00"
+            "time": "2024-12-10T01:58:33+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -4309,16 +4450,16 @@
         },
         {
             "name": "spatie/laravel-medialibrary",
-            "version": "11.10.1",
+            "version": "11.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-medialibrary.git",
-                "reference": "33c8406b9274af743f78057ae72065ef40a72073"
+                "reference": "fe3f17e8e5be30b056bd9fcc610e975d8199e154"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/33c8406b9274af743f78057ae72065ef40a72073",
-                "reference": "33c8406b9274af743f78057ae72065ef40a72073",
+                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/fe3f17e8e5be30b056bd9fcc610e975d8199e154",
+                "reference": "fe3f17e8e5be30b056bd9fcc610e975d8199e154",
                 "shasum": ""
             },
             "require": {
@@ -4402,7 +4543,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-medialibrary/issues",
-                "source": "https://github.com/spatie/laravel-medialibrary/tree/11.10.1"
+                "source": "https://github.com/spatie/laravel-medialibrary/tree/11.11.0"
             },
             "funding": [
                 {
@@ -4414,20 +4555,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-11-21T15:57:39+00:00"
+            "time": "2024-12-09T16:19:56+00:00"
         },
         {
             "name": "spatie/laravel-package-tools",
-            "version": "1.16.6",
+            "version": "1.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-package-tools.git",
-                "reference": "1f26942dc1e5c49eacfced34fdbc29ed234bd7b3"
+                "reference": "9ab30fd24f677e5aa370ea4cf6b41c517d16cf85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-package-tools/zipball/1f26942dc1e5c49eacfced34fdbc29ed234bd7b3",
-                "reference": "1f26942dc1e5c49eacfced34fdbc29ed234bd7b3",
+                "url": "https://api.github.com/repos/spatie/laravel-package-tools/zipball/9ab30fd24f677e5aa370ea4cf6b41c517d16cf85",
+                "reference": "9ab30fd24f677e5aa370ea4cf6b41c517d16cf85",
                 "shasum": ""
             },
             "require": {
@@ -4436,10 +4577,10 @@
             },
             "require-dev": {
                 "mockery/mockery": "^1.5",
-                "orchestra/testbench": "^7.7|^8.0",
-                "pestphp/pest": "^1.22",
-                "phpunit/phpunit": "^9.5.24",
-                "spatie/pest-plugin-test-time": "^1.1"
+                "orchestra/testbench": "^7.7|^8.0|^9.0",
+                "pestphp/pest": "^1.22|^2",
+                "phpunit/phpunit": "^9.5.24|^10.5",
+                "spatie/pest-plugin-test-time": "^1.1|^2.2"
             },
             "type": "library",
             "autoload": {
@@ -4466,7 +4607,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-package-tools/issues",
-                "source": "https://github.com/spatie/laravel-package-tools/tree/1.16.6"
+                "source": "https://github.com/spatie/laravel-package-tools/tree/1.17.0"
             },
             "funding": [
                 {
@@ -4474,7 +4615,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-11-18T15:02:02+00:00"
+            "time": "2024-12-09T16:29:14+00:00"
         },
         {
             "name": "spatie/laravel-permission",
@@ -5651,8 +5792,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
@@ -5727,8 +5868,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
@@ -5888,8 +6029,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
@@ -6046,8 +6187,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
@@ -6126,8 +6267,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
@@ -6208,8 +6349,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
@@ -7897,13 +8038,13 @@
             },
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "3.2-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider"
                     ]
+                },
+                "branch-alias": {
+                    "dev-master": "3.2-dev"
                 }
             },
             "autoload": {
