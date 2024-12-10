@@ -18,7 +18,7 @@ use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $room_id
@@ -122,18 +122,19 @@ class Booking extends Model implements Auditable
 
     public function flow(): MorphMany
     {
-        return $this->morphMany(FlowHistory::class, 'flowable', 'model_type','model_id');
+        return $this->morphMany(FlowHistory::class, 'flowable', 'model_type', 'model_id');
     }
 
 
     public function canBeCanceled(): bool
     {
-        $bookingStatus = strtolower($this->status);
-        $pendingStatus = strtolower(Status::Pending);
-        if ($bookingStatus != $pendingStatus)
-            return false;
-        // the logged-in user is the owner of the booking or have the permission to cancel bookings
-        return auth()->user()->id == $this->user_id || auth()->user()->can(Permission::CancelBooking);
+        return auth()->user()->can(Permission::CancelBooking) && strtolower($this->status) != strtolower(Status::Cancelled);
+        /*        $bookingStatus = strtolower($this->status);
+                $pendingStatus = strtolower(Status::Pending);
+                if ($bookingStatus != $pendingStatus)
+                    return false;
+                // the logged-in user is the owner of the booking or have the permission to cancel bookings
+                return auth()->user()->id == $this->user_id || auth()->user()->can(Permission::CancelBooking);*/
     }
 
     public function canBeReviewed()
