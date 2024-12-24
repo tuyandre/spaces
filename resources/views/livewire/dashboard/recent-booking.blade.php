@@ -17,7 +17,7 @@
                     <td>{{ $item->room->room_number }}</td>
                     <td>{{ $item->start_date->format('Y-m-d H:i') }}</td>
                     <td>{{ $item->end_date->format('Y-m-d H:i') }}</td>
-                    <td>{{ $item->user->name }}</td>
+                    <td>{{ $item->user->name??'Guest' }}</td>
                     <td>
                         <span
                             class="badge bg-{{ $item->statusColor }}-subtle text-{{ $item->statusColor }} rounded-pill">

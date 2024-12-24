@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends(auth()->check()?'layouts.master':'layouts.guest')
 @section('title', 'New Booking')
 @section('content')
     <div>
@@ -156,10 +156,14 @@
                 </div>
 
                 <div class="mb-y">
+                    @guest
+                        <input type="hidden" name="is_guest_booking" value="on"/>
+                    @endguest
                     <div class="form-check">
                         <input onchange="toggleGuestFields(this)" class="form-check-input" type="checkbox"
+                               {{ !auth()->check()?'checked disabled':'' }}
                                name="is_guest_booking" id="is_guest_booking">
-                        <label class="form-check-label" for="is_guest_booking">
+                        <label class="form-check-label tw-text-gray-900" for="is_guest_booking">
                             This is a guest booking (not registered user)
                         </label>
                     </div>
@@ -261,6 +265,8 @@
                 let capacity = $(this).val();
                 fetchRooms(roomType, capacity);
             });
+
+            $('#is_guest_booking').trigger('change');
 
 
             $('#room_id').on('change', function () {

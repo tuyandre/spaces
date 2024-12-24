@@ -8,6 +8,7 @@ use App\Models\Booking;
 use App\Models\Room;
 use App\Models\RoomType;
 use App\Models\User;
+use App\Notifications\BookingCreatedNotification;
 use App\Notifications\BookingReviewNotification;
 use App\Services\InvoiceService;
 use DB;
@@ -52,11 +53,9 @@ class BookingController extends Controller
     public function create()
     {
         $roomTypes = RoomType::all();
-        $nowHour = now()->hour;
         $times = [];
-
-        for ($i = 0; $i < 24 - $nowHour; $i++) {
-            $times[] = ($nowHour + $i) % 24;
+        for ($i = 0; $i < 24; $i++) {
+            $times[] = $i;
         }
         return view('bookings.create', compact('roomTypes', 'times'));
     }
@@ -85,16 +84,33 @@ class BookingController extends Controller
             'is_comment' => false,
             'status' => Status::Pending,
         ]);
+        // for guest booking , send email to guest
+        if ($booking->is_guest_booking) {
+            // make a temporary user object for email notification
+            $user = User::make([
+                'name' => $booking->guest_name,
+                'email' => $booking->guest_email,
+                'phone_number' => $booking->guest_phone,
+            ]);
+            $bookingUrl = route('admin.bookings.show', encodeId($booking->id));
+            $user->notify(new BookingCreatedNotification($booking, $bookingUrl));
+        }
+
         DB::commit();
+        $message = 'Booking created successfully.';
+        if (!auth()->check()) {
+            $message = 'Booking created successfully. You will this code: ' . $booking->booking_code . ' to view the booking details.';
+        }
         if ($request->ajax()) {
-            session()->flash('success', 'Booking created successfully.');
+            session()->flash('success', $message);
             return response()->json([
-                'message' => 'Booking created successfully.',
-                'redirect' => route('admin.bookings.index', ['type' => 'all'])
+                'message' => $message,
+                'redirect' => auth()->check() ? route('admin.bookings.index', ['type' => 'all']) : route('admin.bookings.create')
             ]);
         }
-        return redirect()->route('admin.bookings.index', ['type' => 'all'])
-            ->with('success', 'Booking created successfully.');
+        return auth()->check() ? redirect()->route('admin.bookings.index', ['type' => 'all'])
+            ->with('success', $message) :
+            back()->with('success', 'Booking created successfully. You will this code: ' . $booking->booking_code . ' to view the booking details.');
     }
 
     /**
@@ -217,6 +233,11 @@ class BookingController extends Controller
         }
         return redirect()->route('admin.bookings.index')
             ->with('success', 'Booking reviewed successfully.');
+    }
+
+    public function searchBooking()
+    {
+        return view('search-booking');
     }
 
 

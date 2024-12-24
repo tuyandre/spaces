@@ -1,4 +1,4 @@
-@extends('layouts.auth')
+@extends('layouts.guest')
 @section('title', 'Login')
 @section('content')
 
@@ -9,7 +9,7 @@
             <!--begin::Heading-->
             <div class="text-center mb-10">
                 <!--begin::Title-->
-                <h1 class="text-dark mb-3">Sign In to SMS</h1>
+                <h1 class="text-dark mb-3">Sign In</h1>
                 <!--end::Title-->
                 <p>
                     Enter your email and password to login to your account
@@ -77,6 +77,13 @@
                 <a class="btn btn-link d-block" href="{{ route('password.request') }}">
                     {{ __('Forgot Your Password?') }}
                 </a>
+                <!--begin::Separator-->
+                <div class="text-center text-muted text-uppercase fw-bold mb-5">or</div>
+                <!--end::Separator-->
+
+                <span class="btn btn-link d-block">
+                   Dont have an account?  <a href="{{ route('admin.bookings.create') }}">Book as a guest</a>
+                </span>
             </div>
             <!--end::Actions-->
         </form>

@@ -5,20 +5,30 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Middleware\PasswordChanged;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+Route::get('/test-email', function () {
+    \Mail::raw('This is a test email', function ($message) {
+        $message->to('your-email@example.com')
+            ->subject('Test Email');
+    });
 
-Route::get('/', function () {
-    return redirect('/admin/dashboard');
+    return 'Test email sent!';
 });
+
+Route::get('/', function () {return redirect('/admin/dashboard');});
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/bookings/create', [App\Http\Controllers\BookingController::class, 'create'])->name('admin.bookings.create');
+Route::post('/bookings', [App\Http\Controllers\BookingController::class, 'store'])->name('admin.bookings.store');
+Route::get('/bookings/{booking}', [App\Http\Controllers\BookingController::class, 'show'])->name('admin.bookings.show');
+Route::get('/all/type/capacity', [App\Http\Controllers\RoomController::class, 'rooms'])->name('admin.rooms.all-by-type-capacity');
+Route::get('/{room}/details', [App\Http\Controllers\RoomController::class, 'details'])->name('admin.rooms.details');
+Route::get('/search-booking', [App\Http\Controllers\BookingController::class, 'searchBooking'])->name('bookings.search');
 Route::group(['middleware' => ['auth', PasswordChanged::class], 'prefix' => '/admin', 'as' => 'admin.'], function () {
 
     Route::get('/bookings', [App\Http\Controllers\BookingController::class, 'index'])->name('bookings.index');
-    Route::get('/bookings/create', [App\Http\Controllers\BookingController::class, 'create'])->name('bookings.create');
-    Route::post('/bookings', [App\Http\Controllers\BookingController::class, 'store'])->name('bookings.store');
-    Route::get('/bookings/{booking}', [App\Http\Controllers\BookingController::class, 'show'])->name('bookings.show');
+
     Route::post('/bookings/{booking}/review', [App\Http\Controllers\BookingController::class, 'review'])->name('bookings.review');
     Route::post('/bookings/{booking}/cancel', [App\Http\Controllers\BookingController::class, 'cancelBooking'])->name('bookings.cancel');
     Route::post('/bookings/{booking}/checkout', [App\Http\Controllers\BookingController::class, 'checkout'])->name('bookings.checkout');
@@ -67,8 +77,7 @@ Route::group(['middleware' => ['auth', PasswordChanged::class], 'prefix' => '/ad
         Route::get('/', [App\Http\Controllers\RoomController::class, 'index'])->name('index');
         Route::post('/', [App\Http\Controllers\RoomController::class, 'store'])->name('store');
         Route::get('/{room}', [App\Http\Controllers\RoomController::class, 'show'])->name('show');
-        Route::get('/all/type/capacity', [App\Http\Controllers\RoomController::class, 'rooms'])->name('all-by-type-capacity');
-        Route::get('/{room}/details', [App\Http\Controllers\RoomController::class, 'details'])->name('details');
+
         Route::delete('/{room}', [App\Http\Controllers\RoomController::class, 'destroy'])->name('destroy');
 
         Route::get('/types/index', [App\Http\Controllers\RoomTypeController::class, 'index'])->name('types.index');

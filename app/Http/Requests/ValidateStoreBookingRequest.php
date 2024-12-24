@@ -15,7 +15,7 @@ class ValidateStoreBookingRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check();
+        return true;
     }
 
     /**
@@ -83,7 +83,7 @@ class ValidateStoreBookingRequest extends FormRequest
             ],
             'check_in_date' => ['required', 'date_format:Y-m-d', 'after_or_equal:today'],
             'check_out_date' => ['required', 'date_format:Y-m-d', 'after_or_equal:check_in_date'],
-            'check_in_time' => ['required', 'date_format:H', 'after_or_equal:' . $nowHour],
+            'check_in_time' => ['required', 'date_format:H'],
             'check_out_time' => ['required', 'date_format:H',
                 // validate that check_out_date and check_out_time are after check_in_date and check_in_time
                 function ($attribute, $value, $fail) {

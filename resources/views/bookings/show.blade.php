@@ -210,7 +210,7 @@
                             </svg>
                         </span>
                             <h3 class="tw-flex tw-items-center tw-mb-1 tw-text-lg tw-font-semibold">
-                                {{$item->doneBy->name}}
+                                {{$item->doneBy->name??'Guest'}}
                                 <span
                                     class="badge bg-{{ $item->statusColor }}-subtle tw-rounded-full tw-px-2 tw-py-0.5 tw-text-xs tw-ml-2 text-{{ $item->statusColor }}-emphasis">
                                     {{ucfirst($item->status)}}
