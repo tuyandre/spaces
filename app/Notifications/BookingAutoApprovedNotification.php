@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class BookingAutoApprovedNotification extends Notification implements ShouldQueue
+class BookingAutoApprovedNotification extends Notification
 {
     use Queueable;
     protected Booking $booking;

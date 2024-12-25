@@ -77,13 +77,6 @@
                 <a class="btn btn-link d-block" href="{{ route('password.request') }}">
                     {{ __('Forgot Your Password?') }}
                 </a>
-                <!--begin::Separator-->
-                <div class="text-center text-muted text-uppercase fw-bold mb-5">or</div>
-                <!--end::Separator-->
-
-                <span class="btn btn-link d-block">
-                   Dont have an account?  <a href="{{ route('admin.bookings.create') }}">Book as a guest</a>
-                </span>
             </div>
             <!--end::Actions-->
         </form>

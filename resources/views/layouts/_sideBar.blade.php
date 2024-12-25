@@ -12,18 +12,34 @@
         <div id="#kt_app_sidebar_menu" data-kt-menu="true" data-kt-menu-expand="false"
              class="flex-column-fluid menu menu-sub-indention menu-column menu-rounded menu-active-bg mb-7">
             <!--begin:Menu item-->
-            <div class="menu-item here">
+            <div class="menu-item ">
                 <!--begin:Menu link-->
                 <a href="{{ route('admin.dashboard') }}"
                    class="menu-link {{ request()->fullUrl() ==route('admin.dashboard')?'active':'' }}">
                     <div class="menu-icon">
-                        <i class="bi bi-speedometer2 fs-1"></i>
+                        <x-lucide-gauge class="tw-w-6 tw-h-6"/>
                     </div>
                     <span class="menu-title">Dashboard</span>
                 </a>
                 <!--end:Menu link-->
             </div>
             <!--end:Menu item-->
+            @can(\App\Constants\Permission::ReviewBookingAppointments)
+                <!--begin:Menu item-->
+                <div class="menu-item ">
+                    <!--begin:Menu link-->
+                    <a href="{{ route('admin.appointments.index') }}"
+                       class="menu-link {{ request()->fullUrl() ==route('admin.appointments.index')?'active':'' }}">
+                        <div class="menu-icon">
+                            <x-lucide-calendar-clock class="tw-w-6 tw-h-6"/>
+                        </div>
+                        <span class="menu-title">Appointments</span>
+                    </a>
+                    <!--end:Menu link-->
+                </div>
+                <!--end:Menu item-->
+            @endcan
+
 
 
             <!--end:Menu item-->
@@ -32,15 +48,7 @@
                 <!--begin:Menu link-->
                 <span class="menu-link">
                         <span class="menu-icon">
-                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    class="icon icon-tabler icons-tabler-outline icon-tabler-folders">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path
-                                    d="M9 4h3l2 2h5a2 2 0 0 1 2 2v7a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2"/>
-                                <path d="M17 17v2a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2h2"/>
-                            </svg>
+                              <x-lucide-folders class="tw-w-6 tw-h-6"/>
                         </span>
                         <span class="menu-title">
                             Bookings
@@ -88,14 +96,7 @@
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="menu-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                 stroke-linecap="round" stroke-linejoin="round"
-                                 class="icon icon-tabler icons-tabler-outline icon-tabler-building-skyscraper"><path
-                                    stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 21l18 0"/><path
-                                    d="M5 21v-14l8 -4v18"/><path d="M19 21v-10l-6 -4"/><path
-                                    d="M9 9l0 .01"/><path d="M9 12l0 .01"/><path d="M9 15l0 .01"/><path
-                                    d="M9 18l0 .01"/></svg>
+                            <x-lucide-building-2 class="tw-w-6 tw-h-6"/>
                         </span>
                         <span class="menu-title">
                             Manage Buildings
@@ -137,14 +138,7 @@
                     <!--begin:Menu link-->
                     <span class="menu-link">
 										<span class="menu-icon">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                       fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                       stroke-linejoin="round"
-                                       class="icon icon-tabler icons-tabler-outline icon-tabler-bed"><path stroke="none"
-                                                                                                           d="M0 0h24v24H0z"
-                                                                                                           fill="none"/><path
-                                          d="M7 9m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M22 17v-3h-20"/><path
-                                          d="M2 8v9"/><path d="M12 14h10v-2a3 3 0 0 0 -3 -3h-7v5z"/></svg>
+                                            <x-lucide-bed-double class="tw-w-6 tw-h-6"/>
 										</span>
 										<span class="menu-title">
                                             Manage Rooms
@@ -185,7 +179,7 @@
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="menu-icon">
-                            <i class="bi bi-gear fs-1"></i>
+                            <x-lucide-settings class="tw-w-6 tw-h-6"/>
                         </span>
                         <span class="menu-title">
                            System Settings
@@ -196,11 +190,11 @@
                     <!--begin:Menu sub-->
                     <div class="menu-sub menu-sub-accordion">
 
-                            <a class="menu-link {{ request()->url()==route('admin.settings.services.index')?'active':'' }}"
-                               href="{{ route('admin.settings.services.index') }}">
-                                <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-                                <span class="menu-title">Services</span>
-                            </a>
+                        <a class="menu-link {{ request()->url()==route('admin.settings.services.index')?'active':'' }}"
+                           href="{{ route('admin.settings.services.index') }}">
+                            <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                            <span class="menu-title">Services</span>
+                        </a>
                         <!--end:Menu link-->
 
                     </div>
@@ -215,7 +209,7 @@
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="menu-icon">
-                            <i class="bi bi-people fs-1"></i>
+                         <x-lucide-users class="tw-w-6 tw-h-6"/>
                         </span>
                         <span class="menu-title">
                             User Management
@@ -267,7 +261,7 @@
                 <!--begin:Menu link-->
                 <span class="menu-link">
 										<span class="menu-icon">
-                                            <i class="bi bi-file-pdf fs-1"></i>
+                                         <x-lucide-file-output class="tw-w-6 tw-h-6"/>
 										</span>
 										<span class="menu-title">
                                             Reports

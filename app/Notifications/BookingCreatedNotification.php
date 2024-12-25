@@ -45,7 +45,7 @@ class BookingCreatedNotification extends Notification implements ShouldQueue
 
         return (new MailMessage)
             ->greeting('Hello ' . $this->booking->guest_name . ',')
-            ->line('Thank you for booking with us! Your booking has been successfully created.')
+            ->line(' Your booking has been successfully created.')
             ->line('Here are your booking details:')
             ->line('Booking Code: ' . $this->booking->booking_code)
             ->line('Booking Date: ' . $this->booking->created_at->format('F d, Y'))

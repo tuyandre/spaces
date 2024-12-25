@@ -27,39 +27,35 @@
 <!--begin::App-->
 <div class="d-flex flex-column justify-content-between min-vh-100">
     <div class="flex-grow-1">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container">
                 <a class="navbar-brand" href="{{ route('home') }}">
                     <img alt="Logo" src="{{ asset('assets/media/logos/logo.png') }}"
                          class="tw-h-16  tw-border-primary  theme-light-show"/>
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                        aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                <div class="collapse navbar-collapse" id="navbarScroll">
+                    <ul class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link tw-text-xl tw-leading-relaxed {{ Route::is("admin.bookings.create")?"active tw-font-bold tw-tracking-wider":"" }}"
-                               href="{{ route('admin.bookings.create') }}">
+                            <a class="nav-link btn btn-sm btn-primary {{ Route::is("appointments.create")?"active tw-font-bold tw-tracking-wider":"" }}"
+                               href="{{ route('appointments.create') }}">
                                 <x-lucide-plus class="tw-w-5 tw-h-5"/>
-                                New Booking
+                                New Appointment
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link tw-text-xl tw-leading-relaxed {{ Route::is("bookings.search")?"active tw-font-bold tw-tracking-wider":"" }}" href="{{ route('bookings.search') }}">
-                                <x-lucide-search class="tw-w-5 tw-h-5"/>
-                                Search Bookings
-                            </a>
-                        </li>
+
 
                     </ul>
+
                 </div>
             </div>
-
         </nav>
+
         <div class="container my-10 bg-white card card-body">
             @include('client.partials._flash')
             @yield('content')

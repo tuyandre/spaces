@@ -98,19 +98,16 @@ class BookingController extends Controller
 
         DB::commit();
         $message = 'Booking created successfully.';
-        if (!auth()->check()) {
-            $message = 'Booking created successfully. You will this code: ' . $booking->booking_code . ' to view the booking details.';
-        }
+
         if ($request->ajax()) {
             session()->flash('success', $message);
             return response()->json([
                 'message' => $message,
-                'redirect' => auth()->check() ? route('admin.bookings.index', ['type' => 'all']) : route('admin.bookings.create')
+                'redirect' => route('admin.bookings.index', ['type' => 'all'])
             ]);
         }
-        return auth()->check() ? redirect()->route('admin.bookings.index', ['type' => 'all'])
-            ->with('success', $message) :
-            back()->with('success', 'Booking created successfully. You will this code: ' . $booking->booking_code . ' to view the booking details.');
+        return redirect()->route('admin.bookings.index', ['type' => 'all'])
+            ->with('success', $message);
     }
 
     /**
@@ -219,7 +216,7 @@ class BookingController extends Controller
             $user = User::find($booking->user_id);
         }
         $user->notify(new BookingReviewNotification($booking));
-        if ($status = $data['status'] == Status::Approved) {
+        if ($data['status'] == Status::Approved) {
             // Generate invoice after booking approval
             $invoiceService = new InvoiceService();
             $invoiceService->createInvoice($booking);
