@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookingReportController;
 use App\Http\Controllers\RoomReportsController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Middleware\PasswordChanged;
@@ -104,6 +105,8 @@ Route::group(['middleware' => ['auth', PasswordChanged::class], 'prefix' => '/ad
         Route::get('/room-utilization', [RoomReportsController::class, 'roomUtilizationReport'])->name('reports.room-utilization');
         Route::get('/peak-usage-times', [RoomReportsController::class, 'peakUsageTimes'])->name('reports.peak-usage-times');
         Route::get('/popular-rooms', [RoomReportsController::class, 'popularRooms'])->name('reports.popular-rooms');
+
+        Route::get('/booking', [BookingReportController::class, 'index'])->name('reports.booking');
     });
 
 
